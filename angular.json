@@ -24,8 +24,7 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "scripts": []
+            ]
           },
           "configurations": {
             "production": {
@@ -74,7 +73,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/rdflib/dist/rdflib.min.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
