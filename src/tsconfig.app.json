@@ -8,7 +8,8 @@
       "zlib": ["node_modules/browserify-zlib/lib/index.js"],
       "http": ["node_modules/@angular/http"],
       "https": ["node_modules/@angular/http"],
-      "stream": ["node_modules/jszip/dist/jszip.min.js"]
+      "stream": ["node_modules/jszip/dist/jszip.min.js"],
+      "solid-auth-client": ["src/assets/js/libs/solid-auth-client.bundle.js"]
     }
   },
   "exclude": [

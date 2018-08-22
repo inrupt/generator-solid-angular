@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as $rdf from 'rdflib/index.js';
+import * as $rdf from 'rdflib/lib/index.js';
 
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');

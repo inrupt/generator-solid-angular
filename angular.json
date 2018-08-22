@@ -73,9 +73,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/rdflib/dist/rdflib.min.js"
-            ],
+            "scripts": [],
             "assets": [
               "src/favicon.ico",
               "src/assets"
