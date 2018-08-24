@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { popupLogin } from 'solid-auth-client';
+
+// Auth Service
+import { AuthService } from '../core/solid.auth.service';
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class AuthComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
-  constructor( private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
   onLogin = async () => {
     try {
-      await popupLogin({ popupUri: './login'});
+      await this.auth.solidLogin();
       // popupLogin success redirect to dashboard
       this.router.navigate(['/dashboard']);
     } catch (error) {
