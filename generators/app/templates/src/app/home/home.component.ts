@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Auth Service
-import { AuthService } from '../core/solid.auth.service';
+import { AuthService } from '../services/solid.auth.service';
 
 @Component({
   selector: 'app-home',

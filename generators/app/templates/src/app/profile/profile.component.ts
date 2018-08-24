@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as $rdf from 'rdflib/lib/index.js';
 
 // Auth Service
-import { AuthService } from '../core/solid.auth.service';
+import { AuthService } from '../services/solid.auth.service';
 
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
