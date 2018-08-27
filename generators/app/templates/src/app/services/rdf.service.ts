@@ -47,7 +47,7 @@ export class RdfService {
   getProfile = async () => {
     try {
       await this.fetcher.load(this.session.webId);
-      console.log(this.session.webId);
+
       return {
         name : this.storeAny('fn'),
         company : this.storeAny('organization-name'),

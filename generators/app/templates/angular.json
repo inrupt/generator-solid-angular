@@ -23,7 +23,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/purecss/build/grids-core-min.css",
+              "node_modules/purecss/build/grids-min.css",
+              "node_modules/purecss/build/grids-responsive-min.css"
             ]
           },
           "configurations": {
