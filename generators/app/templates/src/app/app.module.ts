@@ -5,12 +5,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { CardComponent } from './card/card.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 // Services
 import { AuthService } from './services/solid.auth.service';
 import { AuthGuard } from './services/auth.guard.service';
+
+
 
 const routes: Routes = [
   {
@@ -22,17 +24,15 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'profile',
-    component: ProfileComponent,
-    canActivate: [AuthGuard],
-    canLoad: [AuthGuard],
-  },
-  {
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard],
-  }
+  },
+  {
+    path: 'card',
+    component: CardComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
@@ -40,12 +40,12 @@ const routes: Routes = [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ProfileComponent,
-    DashboardComponent
+    DashboardComponent,
+    CardComponent,
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

@@ -16,14 +16,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  onLogin = async () => {
-    try {
-      await this.auth.solidLogin();
-      // popupLogin success redirect to dashboard
-      this.router.navigate(['/dashboard']);
-    } catch (error) {
-      console.log(`Error: ${error}`);
-    }
+  onLogin = () => {
+    this.auth.solidLogin();
   }
 
 }

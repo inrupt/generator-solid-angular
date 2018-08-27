@@ -1,4 +1,7 @@
 <div class="dashboard">
   <p>Your webId is {{ session.webId }}</p>
-  <a routerLink="/profile">Profile</a>
+  <ul>
+    <li><a [routerLink]="['/card']">Profile</a></li>
+    <li><a (click)="onSignOut()">Signout</a></li>
+  </ul>
 </div>

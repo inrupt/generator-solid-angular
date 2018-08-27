@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { currentSession } from 'solid-auth-client';
 
+// Services
+import { AuthService } from '../services/solid.auth.service';
+
 class Session {
-  constructor(webId: string, accessToken: string, idp: string, idToken: string) {}
+  constructor() {}
 }
 
 @Component({
@@ -13,10 +17,19 @@ class Session {
 export class DashboardComponent implements OnInit {
   session: Session = {};
 
-  constructor() { }
+  constructor(private auth: AuthService, private route: ActivatedRoute) {}
 
-  async ngOnInit() {
+  ngOnInit() {
+    console.log('hello');
+    this.loadSession();
+  }
+
+  loadSession = async () => {
     this.session = await currentSession();
+  }
+
+  onSignOut = () => {
+    this.auth.solidSignOut();
   }
 
 }
