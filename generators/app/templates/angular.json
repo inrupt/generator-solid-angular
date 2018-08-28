@@ -24,7 +24,10 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css"
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/purecss/build/grids-core-min.css",
+              "node_modules/purecss/build/grids-min.css",
+              "node_modules/purecss/build/grids-responsive-min.css"
             ]
           },
           "configurations": {

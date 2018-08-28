@@ -43,13 +43,7 @@ export class HomeComponent implements OnInit {
   }
 
   onLoginPopup = async () => {
-    try {
-      await this.auth.solidLoginPopup();
-      // popupLogin success redirect to dashboard
-      this.router.navigate(['/dashboard']);
-    } catch (error) {
-      console.log(`Error: ${error}`);
-    }
+    this.auth.solidLoginPopup();
   }
 
   onLogin = async () => {

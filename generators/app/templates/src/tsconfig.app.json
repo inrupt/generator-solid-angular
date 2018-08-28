@@ -9,7 +9,11 @@
       "http": ["node_modules/@angular/http"],
       "https": ["node_modules/@angular/http"],
       "stream": ["node_modules/jszip/dist/jszip.min.js"],
-      "solid-auth-client": ["src/assets/js/libs/solid-auth-client.bundle.js"]
+      "TextEncoder": ["node_modules/text-encoding"],
+      "solid-auth-client": ["node_modules/solid-auth-client/dist-lib/solid-auth-client.bundle.js"],
+      "fetch": ["node_modules/node-fetch"],
+      "crypto": ["node_modules/@trust/webcrypto"],
+      // "window": ["node_modules/whatwg-url"],
     }
   },
   "exclude": [
