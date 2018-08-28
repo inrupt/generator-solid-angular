@@ -1698,7 +1698,7 @@ cross-spawn@^5.0.1:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-crypto-browserify@^3.11.0:
+crypto-browserify@^3.10.0, crypto-browserify@^3.11.0:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.12.0.tgz#396cf9f3137f03e4b8e532c58f698254e00f80ec"
   dependencies:
@@ -4227,6 +4227,10 @@ node-fetch@^1.0.1, node-fetch@^1.7.1, node-fetch@^1.7.2:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
+node-fetch@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.2.0.tgz#4ee79bde909262f9775f731e3656d0db55ced5b5"
+
 node-forge@0.7.5:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.5.tgz#6c152c345ce11c52f465c2abd957e8639cd674df"
@@ -5698,9 +5702,9 @@ solid-auth-client@>=0.5.1:
     isomorphic-fetch "^2.2.1"
     uuid "^3.1.0"
 
-solid-auth-client@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/solid-auth-client/-/solid-auth-client-2.1.0.tgz#805d6b398a224a471a0647a6d89eba14080e46cd"
+solid-auth-client@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/solid-auth-client/-/solid-auth-client-2.2.0.tgz#a2fe70e7c1edbec0db7097f9bc21f7480eca1822"
   dependencies:
     "@trust/oidc-rp" "^0.4.3"
     auth-header "^0.3.1"
@@ -6499,6 +6503,13 @@ webassemblyjs@1.4.3:
     "@webassemblyjs/wast-parser" "1.4.3"
     long "^3.2.0"
 
+webcrypto@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/webcrypto/-/webcrypto-0.1.1.tgz#63316e5ecbce6ce965ab5f259c2faa62c3e782b4"
+  dependencies:
+    crypto-browserify "^3.10.0"
+    detect-node "^2.0.3"
+
 webdriver-js-extender@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/webdriver-js-extender/-/webdriver-js-extender-1.0.0.tgz#81c533a9e33d5bfb597b4e63e2cdb25b54777515"
@@ -6651,6 +6662,14 @@ whatwg-fetch@>=0.10.0:
 whatwg-url@^6.1.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-6.5.0.tgz#f2df02bff176fd65070df74ad5ccbb5a199965a8"
+  dependencies:
+    lodash.sortby "^4.7.0"
+    tr46 "^1.0.1"
+    webidl-conversions "^4.0.2"
+
+whatwg-url@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-7.0.0.tgz#fde926fa54a599f3adf82dff25a9f7be02dc6edd"
   dependencies:
     lodash.sortby "^4.7.0"
     tr46 "^1.0.1"

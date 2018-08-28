@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 // Auth Service
 import { RdfService } from '../services/rdf.service';
+import { AuthService } from '../services/solid.auth.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class CardComponent implements OnInit  {
     locality: '',
   };
 
-  constructor(private rdf: RdfService, private route: ActivatedRoute) {}
+  constructor(private rdf: RdfService, private route: ActivatedRoute, private auth: AuthService) {}
 
   ngOnInit() {
     console.log('log');
@@ -30,13 +31,17 @@ export class CardComponent implements OnInit  {
 
   async loadProfile() {
     try {
-    const profile = await this.rdf.getProfile();
+    const profile = null; // await this.rdf.getProfile();
 
-    this.name = profile.name;
-    this.company = profile.company;
-    this.role = profile.role;
-    this.image = profile.image;
-    this.address = profile.address;
+    if (profile) {
+      this.name = profile.name;
+      this.company = profile.company;
+      this.role = profile.role;
+      this.image = profile.image;
+      this.address = profile.address;
+    }
+
+    this.auth.updateProfile();
     } catch (error) {
       console.log(`Error: ${error}`);
     }

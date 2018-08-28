@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as $rdf from 'rdflib/lib/index.js';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
+const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +48,7 @@ export class RdfService {
   getProfile = async () => {
     try {
       await this.fetcher.load(this.session.webId);
-
+      console.log('error');
       return {
         name : this.storeAny('fn'),
         company : this.storeAny('organization-name'),
@@ -56,7 +57,7 @@ export class RdfService {
         address: this.getAddress(),
       };
     } catch (error) {
-      console.log(`Error: ${error}`);
+      console.log(`Error fecther: ${error}`);
     }
   }
 }

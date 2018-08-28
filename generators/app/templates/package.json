@@ -27,11 +27,14 @@
     "@angular/router": "^6.1.4",
     "core-js": "^2.5.4",
     "http": "^0.0.0",
+    "node-fetch": "^2.2.0",
     "purecss": "^1.0.0",
     "rdflib": "^0.17.0",
     "rxjs": "^6.0.0",
-    "solid-auth-client": "^2.1.0",
+    "solid-auth-client": "^2.2.0",
     "text-encoding": "^0.6.4",
+    "webcrypto": "^0.1.1",
+    "whatwg-url": "^7.0.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
