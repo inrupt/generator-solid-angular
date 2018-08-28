@@ -11,6 +11,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 // Services
 import { AuthService } from './services/solid.auth.service';
 import { AuthGuard } from './services/auth.guard.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -45,7 +47,9 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    FormsModule,
+    RouterModule.forRoot(routes),
+    NgSelectModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

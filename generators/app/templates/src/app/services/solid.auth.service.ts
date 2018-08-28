@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, from } from 'rxjs';
-import { currentSession, popupLogin } from 'solid-auth-client';
+import { currentSession, popupLogin, login } from 'solid-auth-client';
 
 interface SolidSession {
   accessToken: string;
@@ -28,7 +28,11 @@ export class AuthService {
     this.session = from(currentSession());
   }
 
-  solidLogin = async () => {
+  solidLoginPopup = async () => {
     return popupLogin({ popupUri: './login'});
+  }
+
+  solidLogin = async (idp: string) => {
+    return login(idp);
   }
 }
