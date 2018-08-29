@@ -17,17 +17,15 @@
   max-width: 740px;
   min-height: 500px;
   margin: 0 auto;
-  border: 1px solid #666;
-  box-shadow: #666 1px 1px 4px;
-  padding-bottom: 20px;
+  border: 1px solid #ccc;
+  box-shadow: #ccc 1px 1px 4px;
 }
 
 .profile-fields-container .profile-image-container {
   height: 200px;
   width: 100%;
-  background-image: url('/assets/images/Solid_Pattern_thumb.png');
   background-size: cover;
-  background-position: center center;
+  background: url('/assets/images/Solid_Pattern.png') center center;
 }
 
 .profile-fields-container .profile-image-container img {
