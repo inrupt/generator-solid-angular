@@ -1,1 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
+button.wide-button {
+  width: 360px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: #3D6DEB;
+  font-size: 14px;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+/* Styling custom dropdown */
+
+/* This selector is for the whole control, not the dropdown itself */
+.ng-select.login-select {
+
+}
+
+/* This selector is for the actual dropdown container (aka border, arrow, etc) */
+.ng-select.login-select .ng-select-container {
+  border: 2px solid #3D6DEB;
+}
+.ng-select.login-select.ng-select-opened>.ng-select-container {
+  border: 2px solid #3D6DEB;
+  border-radius: 4px;
+}
+
+
+.ng-select.login-select.ng-select-single .ng-select-container {
+  height: 48px;
+}
+
+/* This selector is for the dropdown selection items container */
+.ng-select.login-select .ng-dropdown-panel {
+  margin-left: -180px;
+  margin-top: -2px;
+  border: 2px solid #3D6DEB;
+}
+
+.ng-select.login-select .ng-input input {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #666;
+  margin-top: 6px;
+}
+
+/* This selector is for the dropdown arrow */
+.ng-select.login-select .ng-arrow:after {
+
+}
+

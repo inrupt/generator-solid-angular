@@ -25,6 +25,7 @@
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.1.4",
+    "@ng-select/ng-select": "^2.5.1",
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",
     "http": "^0.0.0",

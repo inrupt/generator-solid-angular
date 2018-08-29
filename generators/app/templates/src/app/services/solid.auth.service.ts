@@ -31,7 +31,7 @@ export class AuthService {
     this.session = from(solid.auth.currentSession());
   }
 
-  solidLogin = async () => {
+  solidLoginPopup = async () => {
     try {
       await solid.auth.popupLogin({ popupUri: './login'});
       // Check if session is valid to avoid redirect issues
@@ -72,5 +72,9 @@ export class AuthService {
     } catch (error) {
       console.log(`Error: ${error}`);
     }
+  }
+
+  solidLogin = async (idp: string) => {
+    return solid.login(idp);
   }
 }
