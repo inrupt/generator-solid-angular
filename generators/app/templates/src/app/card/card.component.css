@@ -14,11 +14,12 @@
 }
 
 .profile-fields-container {
-  width: 740px;
-  height: 500px;
+  max-width: 740px;
+  min-height: 500px;
   margin: 0 auto;
   border: 1px solid #666;
   box-shadow: #666 1px 1px 4px;
+  padding-bottom: 20px;
 }
 
 .profile-fields-container .profile-image-container {
@@ -30,7 +31,6 @@
 }
 
 .profile-fields-container .profile-image-container img {
-  width: 128px;
   height: 128px;
   border-radius: 32px;
   margin-left: auto;
