@@ -26,6 +26,7 @@
                [(ngModel)]="selectedProviderUrl"
                style="width: 360px; height: 48px; margin-left: auto; margin-right: auto;">
 
+      <!-- DROPDOWN TEMPLATE -->
       <ng-template ng-option-tmp let-item="item">
         <div style="height:40px; padding-top:10px; position: relative;">
           <img [src]="item.providerImage" style="float: left; height: 32px; width: 32px; margin-top:-5px;" />
@@ -34,6 +35,7 @@
           <div class="item-divider"></div>
         </div>
       </ng-template>
+
     </ng-select>
     <input type="text"
            class="wide-text"

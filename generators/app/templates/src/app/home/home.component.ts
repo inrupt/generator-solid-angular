@@ -20,7 +20,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     //If we're authenticated, go to profile
-    //this.auth.session.subscribe()
+    //TODO: Get this to work
+    /*this.auth.session.subscribe((session: any) => {
+      console.log('Session: '+session);
+    });*/
+    if(localStorage.getItem('solid-auth-client')) {
+      this.router.navigateByUrl('/card');
+    }
 
     // This replicates a provider registry we will get eventually. For now, static array.
     this.identityProviders = this.auth.getIdentityProviders();
