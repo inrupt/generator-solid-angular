@@ -19,6 +19,13 @@ interface SolidSession {
 })
 export class AuthService {
   session: Observable<SolidSession>;
+  fechInit = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/sparql-update',
+    },
+    body: '',
+  };
 
   constructor(private router: Router, private rdf: RdfService) {
     this.isSessionActive();
@@ -56,19 +63,30 @@ export class AuthService {
     }
   }
 
-  updateProfile = async () => {
+  parseUpdateSparkQL = (options: { key: string, value: any, nextValue: any }) => {
+    return `DELETE {  <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.value}". }
+    INSERT { <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.nextValue}". }`;
+  }
+
+  parseInsertDeleteSarkQL = (options: { key: string, value: any, action: string }) => {
+    return `${options.action} { <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.value}". }`;
+  }
+
+  updateProfile = async (key: string, value: any, nextValue: any) => {
     try {
-      const init = {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/sparql-update',
-        },
-        body: `PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-              DELETE { <${this.rdf.session.webId}> foaf:name "Jairo Campos"@en }
-              INSERT { <${this.rdf.session.webId}> foaf:givenName "Jairo"@en }`,
-      };
-      const result = await solid.auth.fetch(this.rdf.session.webId, init);
-      console.log(result, 'rresult');
+      this.fechInit.body = this.parseUpdateSparkQL({ key, value, nextValue });
+
+      await solid.auth.fetch(this.rdf.session.webId, this.fechInit);
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  }
+
+  insertDeleteProfile = async (key: string, value: any, action: string = 'INSERT') => {
+    try {
+      this.fechInit.body = this.parseInsertDeleteSarkQL({ key, value, action });
+
+      await solid.auth.fetch(this.rdf.session.webId, this.fechInit);
     } catch (error) {
       console.log(`Error: ${error}`);
     }
