@@ -77,4 +77,32 @@ export class AuthService {
   solidLogin = async (idp: string) => {
     return solid.auth.login(idp);
   }
+
+  getIdentityProviders(): object[] {
+    return [
+      {
+        providerName: 'Inrupt',
+        providerImage: '/assets/images/Inrupt.png',
+        providerLoginUrl: '0',
+        providerDesc: 'Lorem ipsum dolor sit amet non ipsom dolor'
+      },
+      {
+        providerName: 'Solid Community',
+        providerImage: '/assets/images/Solid.png',
+        providerLoginUrl: '1',
+        providerDesc: 'Lorem ipsum dolor sit non consectetur'
+      },
+      {
+        providerName: 'Janeiro Digital',
+        providerImage: '/assets/images/JD.png',
+        providerLoginUrl: 'https://janeirodigital.exchange/auth',
+        providerDesc: 'Lorem ipsum dolor sit amet non'
+      },
+      {
+        providerName: 'Other (Enter WebID)',
+        providerImage: '/assets/images/Generic.png',
+        providerLoginUrl: null
+      }
+    ];
+  }
 }

@@ -36,6 +36,10 @@ const routes: Routes = [
     component: CardComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'register',
+    component: RegisterComponent
+  }
 ];
 
 @NgModule({

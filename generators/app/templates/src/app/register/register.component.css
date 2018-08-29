@@ -1,0 +1,74 @@
+.registration {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+.registration .header-bar {
+  margin: 0px;
+  height: 44px;
+  width: calc(100% + 16px);
+  background-color: #3D6DEB;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.registration .header-bar p {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 1px;
+  line-height: 15px;
+}
+
+.registration .header-text {
+  margin-top:92px;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 14px;
+  color: #666;
+}
+
+.registration .header-text a {
+  color: #666;
+  font-size: 12px;
+}
+
+.registration .provider-card-container {
+  margin-top: 28px;
+}
+
+.registration .provider-card {
+  height: 140px;
+  width: 320px;
+  border: 1px solid #DAE0E6;
+  border-radius: 2px;
+  background-color: #fff;
+  margin: 10px;
+  display: inline-block;
+  box-shadow: #DAE0E6 1px 1px 6px;
+}
+
+.registration .provider-card .provider-logo {
+  height: 44px;
+  width: 44px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 16px;
+}
+
+.registration .provider-card h2 {
+  color: #656E75;
+  font-size: 18px;
+  margin-top: -2px;
+  letter-spacing: 0.9px;
+  line-height: 24px;
+}
+.registration .provider-card p {
+  color: #656E75;
+  font-size: 12px;
+  line-height: 16px;
+}

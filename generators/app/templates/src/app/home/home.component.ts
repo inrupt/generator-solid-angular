@@ -14,37 +14,16 @@ export class HomeComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router) { }
 
   // TODO: Provide models and definitions for these objects
-  identityProviders: any;
+  identityProviders: object[];
   selectedProviderUrl: string;
   customProviderUrl: string;
 
   ngOnInit() {
     //If we're authenticated, go to profile
-    this.auth.session.subscribe()
+    //this.auth.session.subscribe()
 
     // This replicates a provider registry we will get eventually. For now, static array.
-    this.identityProviders = [
-      {
-        providerName: 'Inrupt',
-        providerImage: '/assets/images/Inrupt.png',
-        providerLoginUrl: '0'
-      },
-      {
-        providerName: 'Solid Community',
-        providerImage: '/assets/images/Solid.png',
-        providerLoginUrl: '1'
-      },
-      {
-        providerName: 'Janeiro Digital',
-        providerImage: '/assets/images/Janeiro.png',
-        providerLoginUrl: 'https://janeirodigital.exchange/auth'
-      },
-      {
-        providerName: 'Other (Enter WebID)',
-        providerImage: '',
-        providerLoginUrl: null
-      }
-    ];
+    this.identityProviders = this.auth.getIdentityProviders();
   }
 
   onLoginPopup = async () => {
@@ -59,4 +38,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  goToRegistration() {
+    this.router.navigateByUrl('/register');
+  }
 }
