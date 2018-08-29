@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, from } from 'rxjs';
-import * as solid from 'solid-auth-client';
-
+// import * as solid from 'solid-auth-client';
+declare let solid: any;
 // Service
 import { RdfService } from './rdf.service';
 
@@ -28,12 +28,12 @@ export class AuthService {
    * This will check if current session is active to avoid security problems
   */
   isSessionActive = async () => {
-    this.session = from(solid.currentSession());
+    this.session = from(solid.auth.currentSession());
   }
 
   solidLogin = async () => {
     try {
-      await solid.popupLogin({ popupUri: './login'});
+      await solid.auth.popupLogin({ popupUri: './login'});
       // Check if session is valid to avoid redirect issues
       await this.isSessionActive();
 
@@ -46,7 +46,7 @@ export class AuthService {
 
   solidSignOut = async () => {
     try {
-      await solid.logout();
+      await solid.auth.logout();
       // Remove localStorage
       localStorage.removeItem('solid-auth-client');
       // Redirect to home page
@@ -67,8 +67,7 @@ export class AuthService {
               DELETE { <${this.rdf.session.webId}> foaf:name "Jairo Campos"@en }
               INSERT { <${this.rdf.session.webId}> foaf:givenName "Jairo"@en }`,
       };
-      // console.log(fecthv);
-      const result = await solid.fetch(this.rdf.session.webId, init);
+      const result = await solid.auth.fetch(this.rdf.session.webId, init);
       console.log(result, 'rresult');
     } catch (error) {
       console.log(`Error: ${error}`);
