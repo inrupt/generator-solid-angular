@@ -1,12 +1,47 @@
 <div class="profile-container">
-  <h1>Profile page</h1>
-  <img [src]="image" />
-  <p>Name: {{ name }}</p>
-  <p>Company name: {{ company }}</p>
-  <p>Role: {{ role }}</p>
-  <h3>Contact Information</h3>
-  <p>Contry: {{ address.country_name }}</p>
-  <p>Locality: {{ address.locality }}</p>
-  <p>Region: {{ address.region }}</p>
-  <p>Street: {{ address.street }}</p>
+  <h1>Profile</h1>
+
+  <div class="profile-fields-container">
+    <div class="profile-image-container">
+      <img [src]="profile.image" />
+    </div>
+
+    <div style="padding-top: 26px;">
+      <div class="fields pure-g">
+        <!-- NAME -->
+        <div class="pure-u-1-2">
+          <i class="fas fa-user"></i> <input type="text" class="field-text" placeholder="NAME" [(ngModel)]="profile.name" />
+        </div>
+
+        <!-- PHONE -->
+        <div class="pure-u-1-2">
+          <i class="fas fa-phone"></i><input type="text" class="field-text" placeholder="PHONE" [(ngModel)]="profile.phone" />
+        </div>
+      </div>
+
+      <div class="fields pure-g">
+        <!-- ROLE -->
+        <div class="pure-u-1-2">
+          <i class="fas fa-user-astronaut"></i> <input type="text" class="field-text" placeholder="ROLE" [(ngModel)]="profile.role" />
+        </div>
+
+        <!-- EMAIL -->
+        <div class="pure-u-1-2">
+          <i class="fas fa-envelope"></i><input type="text" class="field-text" placeholder="EMAIL" [(ngModel)]="profile.email" />
+        </div>
+      </div>
+
+      <div class="fields pure-g">
+        <!-- ORGANIZATION -->
+        <div class="pure-u-1-2">
+          <i class="fas fa-user-astronaut"></i> <input type="text" class="field-text" placeholder="ROLE" [(ngModel)]="profile.company" />
+        </div>
+
+        <!-- ADDRESS -->
+        <div class="pure-u-1-2">
+          <i class="fas fa-envelope"></i><input type="text" class="field-text" placeholder="EMAIL" [(ngModel)]="profile.address" />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

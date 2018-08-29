@@ -1,0 +1,26 @@
+<div class="registration">
+  <!-- Header Bar -->
+  <div class="header-bar">
+    <p>Select Solid Identity Provider</p>
+  </div>
+
+  <!-- Header Text -->
+  <div class="header-text">
+    <p>
+      With a Solid Identity your personal data is stored securely in a POD. You control who has access to it.
+    </p>
+    <a href="https://solid.mit.edu" target="_blank">
+      Learn more about Solid IDs and PODs
+    </a>
+  </div>
+
+  <!-- Provider cards -->
+  <div class="provider-card-container">
+    <div class="provider-card" *ngFor="let provider of availableProviders">
+      <img [src]="provider.providerImage" class="provider-logo">
+      <h2>{{ provider.providerName }}</h2>
+      <p>{{ provider.providerDesc }}</p>
+    </div>
+  </div>
+
+</div>

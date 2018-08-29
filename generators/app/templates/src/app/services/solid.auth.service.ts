@@ -24,6 +24,7 @@ export class AuthService {
     headers: {
       'Content-Type': 'application/sparql-update',
     },
+    body: '',
   };
 
   constructor(private router: Router, private rdf: RdfService) {
@@ -43,8 +44,8 @@ export class AuthService {
       // Check if session is valid to avoid redirect issues
       await this.isSessionActive();
 
-      // popupLogin success redirect to dashboard
-      this.router.navigate(['/dashboard']);
+      // popupLogin success redirect to profile
+      this.router.navigate(['/card']);
     } catch (error) {
       console.log(`Error: ${error}`);
     }
@@ -62,12 +63,12 @@ export class AuthService {
     }
   }
 
-  parseUpdateSparkQL = (options) => {
+  parseUpdateSparkQL = (options: { key: string, value: any, nextValue: any }) => {
     return `DELETE {  <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.value}". }
     INSERT { <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.nextValue}". }`;
   }
 
-  parseInsertDeleteSarkQL = (options: Object) => {
+  parseInsertDeleteSarkQL = (options: { key: string, value: any, action: string }) => {
     return `${options.action} { <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.value}". }`;
   }
 
@@ -81,7 +82,7 @@ export class AuthService {
     }
   }
 
-  insertDeleteProfile = async (key: string, value: any, action: stirng = 'INSERT') => {
+  insertDeleteProfile = async (key: string, value: any, action: string = 'INSERT') => {
     try {
       this.fechInit.body = this.parseInsertDeleteSarkQL({ key, value, action });
 
@@ -93,5 +94,33 @@ export class AuthService {
 
   solidLogin = async (idp: string) => {
     return solid.auth.login(idp);
+  }
+
+  getIdentityProviders(): object[] {
+    return [
+      {
+        providerName: 'Inrupt',
+        providerImage: '/assets/images/Inrupt.png',
+        providerLoginUrl: '0',
+        providerDesc: 'Lorem ipsum dolor sit amet non ipsom dolor'
+      },
+      {
+        providerName: 'Solid Community',
+        providerImage: '/assets/images/Solid.png',
+        providerLoginUrl: '1',
+        providerDesc: 'Lorem ipsum dolor sit non consectetur'
+      },
+      {
+        providerName: 'Janeiro Digital',
+        providerImage: '/assets/images/JD.svg',
+        providerLoginUrl: 'https://janeirodigital.exchange/auth',
+        providerDesc: 'Lorem ipsum dolor sit amet non'
+      },
+      {
+        providerName: 'Other (Enter WebID)',
+        providerImage: '/assets/images/Generic.png',
+        providerLoginUrl: null
+      }
+    ];
   }
 }

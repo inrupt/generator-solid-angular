@@ -13,6 +13,7 @@ import { AuthService } from './services/solid.auth.service';
 import { AuthGuard } from './services/auth.guard.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { RegisterComponent } from './register/register.component';
 
 
 
@@ -35,6 +36,10 @@ const routes: Routes = [
     component: CardComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'register',
+    component: RegisterComponent
+  }
 ];
 
 @NgModule({
@@ -44,6 +49,7 @@ const routes: Routes = [
     HomeComponent,
     DashboardComponent,
     CardComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

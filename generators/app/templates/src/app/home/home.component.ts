@@ -14,32 +14,22 @@ export class HomeComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router) { }
 
   // TODO: Provide models and definitions for these objects
-  identityProviders: any;
-  selectedProvider: any;
+  identityProviders: object[];
+  selectedProviderUrl: string;
+  customProviderUrl: string;
 
   ngOnInit() {
-    this.identityProviders = [
-      {
-        providerName: 'Inrupt',
-        providerImage: '/assets/images/Inrupt.png',
-        providerLoginUrl: '0'
-      },
-      {
-        providerName: 'Solid Community',
-        providerImage: '/assets/images/Solid.png',
-        providerLoginUrl: '1'
-      },
-      {
-        providerName: 'Janeiro Digital',
-        providerImage: '/assets/images/Janeiro.png',
-        providerLoginUrl: 'https://janeirodigital.exchange'
-      },
-      {
-        providerName: 'Other (Enter WebID)',
-        providerImage: '',
-        providerLoginUrl: '3'
-      }
-    ];
+    // If we're authenticated, go to profile
+    // TODO: Get this to work
+    /*this.auth.session.subscribe((session: any) => {
+      console.log('Session: '+session);
+    });*/
+    if (localStorage.getItem('solid-auth-client')) {
+      this.router.navigateByUrl('/card');
+    }
+
+    // This replicates a provider registry we will get eventually. For now, static array.
+    this.identityProviders = this.auth.getIdentityProviders();
   }
 
   onLoginPopup = async () => {
@@ -48,10 +38,13 @@ export class HomeComponent implements OnInit {
 
   onLogin = async () => {
     try {
-      await this.auth.solidLogin();
-    } catch {
-      console.log('An error has occurred logging in');
+      await this.auth.solidLogin(this.selectedProviderUrl);
+    } catch (err) {
+      console.log('An error has occurred logging in: ' + err);
     }
   }
 
+  goToRegistration() {
+    this.router.navigateByUrl('/register');
+  }
 }

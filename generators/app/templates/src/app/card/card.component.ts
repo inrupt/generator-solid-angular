@@ -22,6 +22,8 @@ export class CardComponent implements OnInit  {
     locality: '',
   };
 
+  profile: any = {};
+
   constructor(private rdf: RdfService, private route: ActivatedRoute, private auth: AuthService) {}
 
   ngOnInit() {
@@ -39,6 +41,13 @@ export class CardComponent implements OnInit  {
       this.role = profile.role;
       this.image = profile.image;
       this.address = profile.address;
+    } else {
+      this.profile.name = 'James Martin';
+      this.profile.company = 'Janeiro Digital';
+      this.profile.role = 'Senior Front End Developer';
+      this.profile.image = '/assets/images/Inrupt.png';
+      this.profile.phone = '(555) 123-4567';
+      this.profile.address = profile.address;
     }
 
     // this.auth.updateProfile();
