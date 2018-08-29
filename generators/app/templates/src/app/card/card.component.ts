@@ -41,7 +41,7 @@ export class CardComponent implements OnInit  {
       this.address = profile.address;
     }
 
-    this.auth.updateProfile();
+    // this.auth.updateProfile();
     } catch (error) {
       console.log(`Error: ${error}`);
     }

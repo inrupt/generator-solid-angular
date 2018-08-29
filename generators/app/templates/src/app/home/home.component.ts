@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) { }
 
-  //TODO: Provide models and definitions for these objects
+  // TODO: Provide models and definitions for these objects
   identityProviders: any;
   selectedProviderUrl: string;
   customProviderUrl: string;
@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
         providerImage: '',
         providerLoginUrl: null
       }
-    ]
+    ];
   }
 
   onLoginPopup = async () => {
