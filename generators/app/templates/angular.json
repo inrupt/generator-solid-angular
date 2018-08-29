@@ -28,6 +28,9 @@
               "node_modules/purecss/build/grids-core-min.css",
               "node_modules/purecss/build/grids-min.css",
               "node_modules/purecss/build/grids-responsive-min.css"
+            ],
+            "scripts": [
+              "node_modules/solid-auth-client/dist-lib/solid-auth-client.bundle.js"
             ]
           },
           "configurations": {

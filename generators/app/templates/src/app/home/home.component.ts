@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) { }
 
-  //TODO: Provide models and definitions for these objects
+  // TODO: Provide models and definitions for these objects
   identityProviders: any;
   selectedProvider: any;
 
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
         providerImage: '',
         providerLoginUrl: '3'
       }
-    ]
+    ];
   }
 
   onLoginPopup = async () => {
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
 
   onLogin = async () => {
     try {
-      await this.auth.solidLogin(this.selectedProvider);
+      await this.auth.solidLoginPopup();
     } catch {
       console.log('An error has occurred logging in');
     }

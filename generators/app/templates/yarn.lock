@@ -255,6 +255,12 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
+"@ng-select/ng-select@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-2.5.1.tgz#fffc8eee627e4427e3477054f9d263f66d619193"
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngtools/webpack@6.0.8":
   version "6.0.8"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-6.0.8.tgz#a05bce526aee9da62bb230a95fba83fee99d0bca"
