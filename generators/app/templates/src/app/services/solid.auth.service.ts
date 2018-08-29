@@ -37,8 +37,8 @@ export class AuthService {
       // Check if session is valid to avoid redirect issues
       await this.isSessionActive();
 
-      // popupLogin success redirect to dashboard
-      this.router.navigate(['/dashboard']);
+      // popupLogin success redirect to profile
+      this.router.navigate(['/card']);
     } catch (error) {
       console.log(`Error: ${error}`);
     }
@@ -75,6 +75,6 @@ export class AuthService {
   }
 
   solidLogin = async (idp: string) => {
-    return solid.login(idp);
+    return solid.auth.login(idp);
   }
 }

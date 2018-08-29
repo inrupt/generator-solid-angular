@@ -15,9 +15,14 @@ export class HomeComponent implements OnInit {
 
   //TODO: Provide models and definitions for these objects
   identityProviders: any;
-  selectedProvider: any;
+  selectedProviderUrl: string;
+  customProviderUrl: string;
 
   ngOnInit() {
+    //If we're authenticated, go to profile
+    this.auth.session.subscribe()
+
+    // This replicates a provider registry we will get eventually. For now, static array.
     this.identityProviders = [
       {
         providerName: 'Inrupt',
@@ -32,12 +37,12 @@ export class HomeComponent implements OnInit {
       {
         providerName: 'Janeiro Digital',
         providerImage: '/assets/images/Janeiro.png',
-        providerLoginUrl: 'https://janeirodigital.exchange'
+        providerLoginUrl: 'https://janeirodigital.exchange/auth'
       },
       {
         providerName: 'Other (Enter WebID)',
         providerImage: '',
-        providerLoginUrl: '3'
+        providerLoginUrl: null
       }
     ]
   }
@@ -48,9 +53,9 @@ export class HomeComponent implements OnInit {
 
   onLogin = async () => {
     try {
-      await this.auth.solidLogin(this.selectedProvider);
-    } catch {
-      console.log('An error has occurred logging in');
+      await this.auth.solidLogin(this.selectedProviderUrl);
+    } catch(err) {
+      console.log('An error has occurred logging in: ' + err);
     }
   }
 

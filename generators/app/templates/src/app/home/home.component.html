@@ -21,8 +21,9 @@
                bindLabel="providerName"
                bindValue="providerLoginUrl"
                placeholder="Select ID Provider"
+               dropdownPosition="bottom"
                [items]="identityProviders"
-               [(ngModel)]="selectedProvider"
+               [(ngModel)]="selectedProviderUrl"
                style="width: 360px; height: 48px; margin-left: auto; margin-right: auto;">
 
       <ng-template ng-option-tmp let-item="item">
@@ -34,6 +35,13 @@
         </div>
       </ng-template>
     </ng-select>
+    <input type="text"
+           class="wide-text"
+           *ngIf="selectedProviderUrl===null"
+           placeholder="Enter WebID"
+           style="margin-top:10px; padding: 12px 10px; width: 340px; height: 16px; display: block; margin-left: auto; margin-right: auto;"
+           [(ngModel)]="selectedProviderUrl" />
+    <button class="wide-button" (click)="onLogin()" *ngIf="selectedProviderUrl !== undefined" style="margin-top:10px;">Go</button>
   </div>
 
   <!-- REGISTRATION -->
@@ -44,13 +52,11 @@
 
   <!-- HELP -->
   <div style="margin-top: 48px;">
-    <a href class="small-link">
+    <a href="https://solid.mit.edu" target="_blank" class="small-link">
       <i class="fas fa-info-circle"></i> What is a Solid Identity?
     </a>
   </div>
 
-  <!-- ORIGINAL SAMPLE BUTTON -->
-  <button type="button" *ngIf="selectedProvider" (click)="onLogin()" style="margin-top: 20px;">Login Solid App</button>
 </div>
   
 
