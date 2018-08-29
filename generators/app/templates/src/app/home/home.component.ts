@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
 
   onLogin = async () => {
     try {
-      await this.auth.solidLoginPopup();
+      await this.auth.solidLogin();
     } catch {
       console.log('An error has occurred logging in');
     }
