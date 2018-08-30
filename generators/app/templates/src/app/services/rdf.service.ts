@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 declare let $rdf: any;
-// import * as $rdf from 'rdflib/lib/index.js';
+declare let solid: any;
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
@@ -19,12 +19,9 @@ export class RdfService {
     this.getSession();
   }
 
-  getSession = () => {
-    const localSession = localStorage.getItem('solid-auth-client');
-
-    if (localSession) {
-      this.session = JSON.parse(localSession).session;
-    }
+  getSession = async() => {
+      this.session = await solid.auth.currentSession();
+      console.log(this.session);
   }
 
   storeAny = (node: string, webId?: string) => {
@@ -47,6 +44,11 @@ export class RdfService {
   }
 
   getProfile = async () => {
+
+    if(!this.session) {
+      await this.getSession();
+    }
+    
     try {
       await this.fetcher.load(this.session.webId);
       return {
