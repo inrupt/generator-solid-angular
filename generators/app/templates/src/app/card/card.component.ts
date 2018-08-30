@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 // Auth Service
 import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
+import { FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -12,16 +13,8 @@ import { AuthService } from '../services/solid.auth.service';
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent implements OnInit  {
-  name: string;
-  company: string;
-  role: string;
-  image = '';
-  address: Object = {
-    street: '',
-    contry_name: '',
-    region: '',
-    locality: '',
-  };
+
+  profile: object = {};
 
   @ViewChild('f') cardForm: NgForm;
 
@@ -36,11 +29,7 @@ export class CardComponent implements OnInit  {
     const profile = await this.rdf.getProfile();
     console.log(profile);
     if (profile) {
-      this.name = profile.name;
-      this.company = profile.company;
-      this.role = profile.role;
-      this.image = profile.image;
-      this.address = profile.address;
+      this.profile = profile;
     }
 
     // this.auth.updateProfile();
@@ -51,7 +40,6 @@ export class CardComponent implements OnInit  {
   }
 
   onSubmit () {
-    console.log(this.cardForm);
     if (this.cardForm.valid) {
       this.auth.solidAuthForm(this.cardForm);
     }

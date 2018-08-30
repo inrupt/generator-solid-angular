@@ -19,6 +19,7 @@
   margin: 0 auto;
   border: 1px solid #ccc;
   box-shadow: #ccc 1px 1px 4px;
+  position: relative;
 }
 
 .profile-fields-container .profile-image-container {
@@ -55,4 +56,26 @@
 
 .profile-fields-container input[type=text].field-text::placeholder {
   color: rgba(102,102,102,0.2);
+}
+
+.profile-save-button-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: auto;
+  height: 100px;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.profile-save-button {
+  background-color: #7C55FB;
+  margin-left: auto;
+  margin-right: auto;
+  width: 280px;
+}
+
+.profile-save-button:disabled {
+  background-color: #F0EEEB;
+  border-color: #F0EEEB;
+  cursor: not-allowed;
 }

@@ -3,48 +3,47 @@
 
   <div class="profile-fields-container">
     <div class="profile-image-container">
-      <img [src]="image" />
+      <img [src]="profile.image" />
     </div>
-    <form (ngSubmit)="onSubmit()" #f>
-      <div style="padding-top: 26px;">
-        <div class="fields pure-g">
-          <!-- NAME -->
-          <div class="pure-u-1-1 pure-u-md-1-2">
-            <i class="fas fa-user"></i> <input type="text" name="name" class="field-text" placeholder="NAME" [(ngModel)]="name" />
-          </div>
-
-          <!-- PHONE -->
-          <div class="pure-u-1-1 pure-u-md-1-2">
-            <i class="fas fa-phone"></i><input type="text" name="phone" class="field-text" placeholder="PHONE" [(ngModel)]="phone" />
-          </div>
+    <form style="padding-top: 26px;" #f (submit)="onSubmit()">
+      <div class="fields pure-g">
+        <!-- NAME -->
+        <div class="pure-u-1-1 pure-u-md-1-2 form-group">
+          <i class="fas fa-user"></i> <input type="text" class="field-text form-control" name="profileName" placeholder="NAME" [(ngModel)]="profile.name" />
         </div>
 
-        <div class="fields pure-g">
-          <!-- ROLE -->
-          <div class="pure-u-1-1 pure-u-md-1-2">
-            <i class="fas fa-user-astronaut"></i> <input type="text" name="role" class="field-text" placeholder="ROLE" [(ngModel)]="role" />
-          </div>
+        <!-- PHONE -->
+        <div class="pure-u-1-1 pure-u-md-1-2 form-group">
+          <i class="fas fa-phone"></i><input type="text" class="field-text form-control" name="profilePhone" placeholder="PHONE" [(ngModel)]="profile.phone" />
+        </div>
+      </div>
 
-          <!-- EMAIL -->
-          <div class="pure-u-1-1 pure-u-md-1-2">
-            <i class="fas fa-envelope"></i><input type="text" name="email" class="field-text" placeholder="EMAIL" [(ngModel)]="email" />
-          </div>
+      <div class="fields pure-g">
+        <!-- ROLE -->
+        <div class="pure-u-1-1 pure-u-md-1-2 form-group">
+          <i class="fas fa-user-astronaut"></i> <input type="text" class="field-text form-control" name="profileRole" placeholder="ROLE" [(ngModel)]="profile.role" />
         </div>
 
-        <div class="fields pure-g">
-          <!-- ORGANIZATION -->
-          <div class="pure-u-1-1 pure-u-md-1-2">
-            <i class="fas fa-building"></i> <input type="text" name="organization" class="field-text" placeholder="ORGANIZATION" [(ngModel)]="company" />
-          </div>
-
-          <!-- ADDRESS -->
-          <div class="pure-u-1-1 pure-u-md-1-2">
-            <i class="fas fa-map-marker-alt"></i><input type="text" name="street" class="field-text" placeholder="ADDRESS" [(ngModel)]="address.street" />
-          </div>
-          <div class="pure-u-1-1">
-            <button type="submit">Save Data</button>
-          </div>
+        <!-- EMAIL -->
+        <div class="pure-u-1-1 pure-u-md-1-2 form-group">
+          <i class="fas fa-envelope"></i><input type="text" class="field-text form-control" name="profileEmail" placeholder="EMAIL" [(ngModel)]="profile.email" />
         </div>
+      </div>
+
+      <div class="fields pure-g">
+        <!-- ORGANIZATION -->
+        <div class="pure-u-1-1 pure-u-md-1-2 form-group">
+          <i class="fas fa-building"></i> <input type="text" class="field-text form-control" name="profileOrganization" placeholder="ORGANIZATION" [(ngModel)]="profile.company" />
+        </div>
+
+        <!-- ADDRESS -->
+        <div class="pure-u-1-1 pure-u-md-1-2 form-group">
+          <i class="fas fa-map-marker-alt" style="width: 14px;"></i><input type="text" class="field-text form-control" name="profileAddress" placeholder="ADDRESS" [(ngModel)]="profile.address.street" />
+        </div>
+      </div>
+
+      <div class="profile-save-button-container">
+        <button type="submit" class="wide-button profile-save-button" [disabled]="profileForm.form.pristine">Save</button>
       </div>
     </form>
   </div>
