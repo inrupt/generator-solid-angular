@@ -14,7 +14,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class CardComponent implements OnInit  {
 
-  profile: object = {};
+  profile: any;
 
   @ViewChild('f') cardForm: NgForm;
 
@@ -26,22 +26,22 @@ export class CardComponent implements OnInit  {
 
   async loadProfile() {
     try {
-    const profile = await this.rdf.getProfile();
-    console.log(profile);
-    if (profile) {
-      this.profile = profile;
-    }
-
-    // this.auth.updateProfile();
+      const profile = await this.rdf.getProfile();
+      if (profile) {
+        this.profile = profile;
+        this.auth.saveOldUserData(profile);
+      }
     } catch (error) {
       console.log(`Error: ${error}`);
     }
 
   }
 
-  onSubmit () {
-    if (this.cardForm.valid) {
-      this.auth.solidAuthForm(this.cardForm);
+  async onSubmit () {
+    if (!this.cardForm.invalid) {
+      await this.auth.updateProfile(this.cardForm);
+      console.log('hello');
+      localStorage.removeItem('oldProfileData');
     }
   }
 
