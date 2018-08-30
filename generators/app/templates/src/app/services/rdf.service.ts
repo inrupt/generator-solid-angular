@@ -20,16 +20,23 @@ export class RdfService {
   }
 
   getSession = async() => {
-      this.session = await solid.auth.currentSession();
-      console.log(this.session);
+    this.session = await solid.auth.currentSession();
   }
 
   storeAny = (node: string, webId?: string) => {
-    return this.store.any($rdf.sym(webId || this.session.webId), VCARD(node)).value || '';
+    const store = this.store.any($rdf.sym(webId || this.session.webId), VCARD(node));
+    if (store) {
+      return store.value;
+    }
+    return '';
   }
 
   storyName = (node: string, webId?: string) => {
-    return this.store.any($rdf.sym(webId || this.session.webId), FOAF(node)).value || '';
+    const store = this.store.any($rdf.sym(webId || this.session.webId), FOAF(node));
+    if (store) {
+      return store.value;
+    }
+    return '';
   }
 
   getAddress = () => {
@@ -49,17 +56,18 @@ export class RdfService {
 
   getProfile = async () => {
 
-    if(!this.session) {
+    if (!this.session) {
       await this.getSession();
     }
-    
+
     try {
+      console.log(this.session.webId);
       await this.fetcher.load(this.session.webId);
 
       return {
         name : this.storyName('name'),
         company : this.storeAny('organization-name'),
-        //phone: this.storeAny('phone'),
+        phone: this.storeAny('phones'),
         role: this.storeAny('role'),
         image: this.storeAny('hasPhoto'),
         address: this.getAddress(),

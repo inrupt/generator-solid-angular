@@ -51,7 +51,7 @@ export class CardComponent implements OnInit  {
   async onSubmit () {
     if (!this.cardForm.invalid) {
       await this.auth.updateProfile(this.cardForm);
-      console.log('hello');
+
       localStorage.removeItem('oldProfileData');
     }
   }
