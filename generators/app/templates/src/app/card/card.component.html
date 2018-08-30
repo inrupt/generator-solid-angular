@@ -5,7 +5,7 @@
     <div class="profile-image-container">
       <img [src]="profile.image" />
     </div>
-    <form style="padding-top: 26px;" #f (submit)="onSubmit()">
+    <form style="padding-top: 26px;" #profileForm="ngForm" (submit)="onSubmit()">
       <div class="fields pure-g">
         <!-- NAME -->
         <div class="pure-u-1-1 pure-u-md-1-2 form-group">
@@ -38,7 +38,7 @@
 
         <!-- ADDRESS -->
         <div class="pure-u-1-1 pure-u-md-1-2 form-group">
-          <i class="fas fa-map-marker-alt" style="width: 14px;"></i><input type="text" class="field-text form-control" name="profileAddress" placeholder="ADDRESS" [(ngModel)]="profile.address.street" />
+          <i class="fas fa-map-marker-alt" style="width: 14px;"></i><input type="text" class="field-text form-control" name="profileAddress" placeholder="ADDRESS" [(ngModel)]="profile.address" />
         </div>
       </div>
 
