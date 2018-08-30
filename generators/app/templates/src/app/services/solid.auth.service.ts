@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { Observable, from } from 'rxjs';
 // import * as solid from 'solid-auth-client';
 declare let solid: any;
@@ -63,18 +64,30 @@ export class AuthService {
     }
   }
 
-  parseUpdateSparkQL = (options: { key: string, value: any, nextValue: any }) => {
-    return `DELETE {  <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.value}". }
-    INSERT { <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.nextValue}". }`;
+  parseUpdateSparkQL = (options: { key: string, value: any }) => {
+    return `DELETE {  <${this.rdf.session.webId}> <http://www.w3.org/2006/vcard/ns#${options.key}> ?${options.key}. }
+    INSERT { <${this.rdf.session.webId}> <http://www.w3.org/2006/vcard/ns#${options.key}> "${options.value}". } `;
   }
 
   parseInsertDeleteSarkQL = (options: { key: string, value: any, action: string }) => {
-    return `${options.action} { <${this.rdf.session.webId}> <http://xmlns.com/foaf/0.1/${options.key}> "${options.value}". }`;
+    return `${options.action} { <${this.rdf.session.webId}> <http://www.w3.org/2006/vcard/ns#${options.key}> "${options.value}". }`;
   }
 
-  updateProfile = async (key: string, value: any, nextValue: any) => {
+  solidAuthForm = (form: NgForm) => {
+    const values = form.value;
+    const fields = Object.keys(values);
+    let bodyRequest = '';
+
+    fields.map((field, index) => {
+      bodyRequest += this.parseUpdateSparkQL({ key: field, value: values[field] });
+    });
+
+    return bodyRequest;
+  }
+
+  updateProfile = async (key: string, value: any) => {
     try {
-      this.fechInit.body = this.parseUpdateSparkQL({ key, value, nextValue });
+      this.fechInit.body = this.parseUpdateSparkQL({ key, value });
 
       await solid.auth.fetch(this.rdf.session.webId, this.fechInit);
     } catch (error) {

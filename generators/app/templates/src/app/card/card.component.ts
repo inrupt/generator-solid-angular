@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
 // Auth Service
 import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
@@ -21,6 +22,8 @@ export class CardComponent implements OnInit  {
     region: '',
     locality: '',
   };
+
+  @ViewChild('f') cardForm: NgForm;
 
   constructor(private rdf: RdfService, private route: ActivatedRoute, private auth: AuthService) {}
 
@@ -45,6 +48,13 @@ export class CardComponent implements OnInit  {
       console.log(`Error: ${error}`);
     }
 
+  }
+
+  onSubmit () {
+    console.log(this.cardForm);
+    if (this.cardForm.valid) {
+      this.auth.solidAuthForm(this.cardForm);
+    }
   }
 
 }
