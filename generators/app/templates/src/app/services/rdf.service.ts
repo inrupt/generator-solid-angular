@@ -28,6 +28,10 @@ export class RdfService {
     return this.store.any($rdf.sym(webId || this.session.webId), VCARD(node)).value;
   }
 
+  storyName = (node: string, webId?: string) => {
+    return this.store.any($rdf.sym(webId || this.session.webId), FOAF(node)).value;
+  }
+
   getAddress = () => {
     const linkedUri = this.storeAny('hasAddress');
 
@@ -51,9 +55,11 @@ export class RdfService {
     
     try {
       await this.fetcher.load(this.session.webId);
+
       return {
-        name : this.storeAny('fn'),
+        name : this.storyName('name'),
         company : this.storeAny('organization-name'),
+        phone: this.storeAny('phone'),
         role: this.storeAny('role'),
         image: this.storeAny('hasPhoto'),
         address: this.getAddress(),

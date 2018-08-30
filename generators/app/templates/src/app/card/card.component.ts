@@ -13,7 +13,7 @@ import { AuthService } from '../services/solid.auth.service';
 })
 export class CardComponent implements OnInit  {
 
-  //TODO: Make a model
+  // TODO: Make a model
   profile: any = {
     image: null,
     name: null,
@@ -35,29 +35,29 @@ export class CardComponent implements OnInit  {
 
   async loadProfile() {
     try {
-    const profile = await this.rdf.getProfile();
-    console.log(profile);
-    if (profile) {
-      this.profile = profile;
-    }
+      const profile = await this.rdf.getProfile();
+      if (profile) {
+        this.profile = profile;
+        this.auth.saveOldUserData(profile);
+      }
 
       this.setupProfileData();
-
-    // this.auth.updateProfile();
     } catch (error) {
       console.log(`Error: ${error}`);
     }
 
   }
 
-  onSubmit () {
-    if (this.cardForm.valid) {
-      this.auth.solidAuthForm(this.cardForm);
+  async onSubmit () {
+    if (!this.cardForm.invalid) {
+      await this.auth.updateProfile(this.cardForm);
+      console.log('hello');
+      localStorage.removeItem('oldProfileData');
     }
   }
 
   private setupProfileData() {
-    if(this.profile) {
+    if (this.profile) {
       this.profileImage = this.profile.image ? this.profile.image : '/assets/images/profile.png';
     } else {
       this.profileImage = '/assets/images/profile.png';
