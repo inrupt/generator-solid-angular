@@ -1,9 +1,36 @@
 <div class="profile-container">
+  <!-- EXAMPLE TOP NAV -->
+  <div class="topnav">
+    <div class="logo">Solid</div>
+    <div class="menu-item">
+      <div>
+        <i class="far fa-compass"></i>
+      </div>
+      Menu Item 1
+    </div>
+    <div class="menu-item">
+      <div>
+        <i class="far fa-comment"></i>
+      </div>
+      Menu Item 2
+    </div>
+    <div class="menu-item">
+      <div>
+        <i class="fas fa-sliders-h"></i>
+      </div>
+      Menu Item 3
+    </div>
+
+    <div class="profile-menu" (click)="logout()">
+      <img [src]="profileImage" />
+    </div>
+  </div>
   <h1>Profile</h1>
 
+  <!-- MAIN PROFILE -->
   <div class="profile-fields-container">
     <div class="profile-image-container">
-      <img [src]="profile.image" />
+      <img [src]="profileImage" />
     </div>
     <form style="padding-top: 26px;" #f="ngForm" (submit)="onSubmit()">
       <div class="fields pure-g">
