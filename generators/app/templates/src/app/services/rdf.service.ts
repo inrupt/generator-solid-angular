@@ -21,6 +21,9 @@ export class RdfService {
 
   getSession = async() => {
     this.session = await solid.auth.currentSession();
+    this.session = {
+      webId: 'https://jairo.janeirodigital.exchange/profile/card#me',
+    };
   }
 
   storeAny = (node: string, webId?: string) => {
@@ -54,6 +57,16 @@ export class RdfService {
     return {};
   }
 
+  getEmail = () => {
+    const linkedUri = this.storeAny('hasEmail');
+
+    if (linkedUri) {
+      return this.storeAny('value', linkedUri).split('mailto:')[1];
+    }
+
+    return '';
+  }
+
   getProfile = async () => {
 
     if (!this.session) {
@@ -71,6 +84,7 @@ export class RdfService {
         role: this.storeAny('role'),
         image: this.storeAny('hasPhoto'),
         address: this.getAddress(),
+        email: this.getEmail(),
       };
     } catch (error) {
       console.log(`Error fecther: ${error}`);
