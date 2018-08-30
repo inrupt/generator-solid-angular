@@ -21,9 +21,6 @@ export class RdfService {
 
   getSession = async() => {
     this.session = await solid.auth.currentSession();
-    this.session = {
-      webId: 'https://jairo.janeirodigital.exchange/profile/card#me',
-    };
   }
 
   storeAny = (node: string, webId?: string) => {
