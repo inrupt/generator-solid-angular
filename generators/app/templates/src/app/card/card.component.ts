@@ -4,7 +4,6 @@ import { NgForm } from '@angular/forms';
 // Auth Service
 import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
-import { FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -14,7 +13,17 @@ import { FormGroup } from '@angular/forms';
 })
 export class CardComponent implements OnInit  {
 
-  profile: object = {};
+  //TODO: Make a model
+  profile: any = {
+    image: null,
+    name: null,
+    address: {},
+    organization: null,
+    role: null,
+    phone: null,
+    email: null
+  };
+  profileImage: string;
 
   @ViewChild('f') cardForm: NgForm;
 
@@ -32,6 +41,8 @@ export class CardComponent implements OnInit  {
       this.profile = profile;
     }
 
+      this.setupProfileData();
+
     // this.auth.updateProfile();
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -45,4 +56,11 @@ export class CardComponent implements OnInit  {
     }
   }
 
+  private setupProfileData() {
+    if(this.profile) {
+      this.profileImage = this.profile.image ? this.profile.image : '/assets/images/profile.png';
+    } else {
+      this.profileImage = '/assets/images/profile.png';
+    }
+  }
 }

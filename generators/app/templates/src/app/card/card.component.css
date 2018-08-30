@@ -31,10 +31,11 @@
 
 .profile-fields-container .profile-image-container img {
   height: 128px;
-  border-radius: 32px;
+  border-radius: 50%;
   margin-left: auto;
   margin-right:auto;
-  padding-top:40px;
+  position: relative;
+  top:40px;
   display: block;
 }
 

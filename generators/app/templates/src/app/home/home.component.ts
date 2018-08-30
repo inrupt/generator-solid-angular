@@ -24,9 +24,9 @@ export class HomeComponent implements OnInit {
     /*this.auth.session.subscribe((session: any) => {
       console.log('Session: '+session);
     });*/
-    /* if (localStorage.getItem('solid-auth-client')) {
+    if (localStorage.getItem('solid-auth-client')) {
       this.router.navigateByUrl('/card');
-    }*/
+    }
 
     // This replicates a provider registry we will get eventually. For now, static array.
     this.identityProviders = this.auth.getIdentityProviders();

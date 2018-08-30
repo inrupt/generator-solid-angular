@@ -21,8 +21,13 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    const result = localStorage.getItem('solid-auth-client') ? true : false;
-    return result; /* this.auth.session.pipe(
+    const isLoggedIn = localStorage.getItem('solid-auth-client') ? true : false;
+
+    if(!isLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
+
+    return isLoggedIn; /* this.auth.session.pipe(
       take(1),
       map(session => !!session),
       tap(loggedIn => {
