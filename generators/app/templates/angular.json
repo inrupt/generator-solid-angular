@@ -30,7 +30,8 @@
               "node_modules/purecss/build/grids-responsive-min.css"
             ],
             "scripts": [
-              "node_modules/solid-auth-client/dist-lib/solid-auth-client.bundle.js"
+              "node_modules/solid-auth-client/dist-lib/solid-auth-client.bundle.js",
+              "src/assets/js/libs/rdflib.min.js"
             ]
           },
           "configurations": {
