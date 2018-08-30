@@ -71,4 +71,11 @@
   background-color: #7C55FB;
   margin-left: auto;
   margin-right: auto;
+  width: 280px;
+}
+
+.profile-save-button:disabled {
+  background-color: #F0EEEB;
+  border-color: #F0EEEB;
+  cursor: not-allowed;
 }
