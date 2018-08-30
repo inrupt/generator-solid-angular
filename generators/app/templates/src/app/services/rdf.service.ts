@@ -28,11 +28,11 @@ export class RdfService {
   }
 
   storeAny = (node: string, webId?: string) => {
-    return this.store.any($rdf.sym(webId || this.session.webId), VCARD(node)).value;
+    return this.store.any($rdf.sym(webId || this.session.webId), VCARD(node)).value || '';
   }
 
   storyName = (node: string, webId?: string) => {
-    return this.store.any($rdf.sym(webId || this.session.webId), FOAF(node)).value;
+    return this.store.any($rdf.sym(webId || this.session.webId), FOAF(node)).value || '';
   }
 
   getAddress = () => {
