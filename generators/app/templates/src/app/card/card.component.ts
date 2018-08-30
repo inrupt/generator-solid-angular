@@ -63,4 +63,8 @@ export class CardComponent implements OnInit  {
       this.profileImage = '/assets/images/profile.png';
     }
   }
+
+  logout() {
+    this.auth.solidSignOut();
+  }
 }

@@ -106,7 +106,11 @@ export class AuthService {
   }
 
   solidLogin = async (idp: string) => {
-    return solid.auth.login(idp);
+    await solid.auth.login(idp);
+    await this.isSessionActive();
+
+    // popupLogin success redirect to profile
+    this.router.navigate(['/card']);
   }
 
   getIdentityProviders(): object[] {

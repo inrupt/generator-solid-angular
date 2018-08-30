@@ -80,3 +80,59 @@
   border-color: #F0EEEB;
   cursor: not-allowed;
 }
+
+.topnav {
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  background-color: #7C4DFF;
+  height: 50px;
+  color: #fff;
+}
+
+.topnav .logo {
+  display: inline-block;
+  font-family: 'Roboto Slab', serif;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 32px;
+  padding-right: 80px;
+  position: relative;
+  top: -8px;
+  left: 28px;
+}
+
+.topnav .menu-item {
+  display: inline-block;
+  font-size: 10px;
+  line-height: 13px;
+  width: 100px;
+  height: 100%;
+  text-align: center;
+}
+
+.topnav .menu-item i {
+  font-size: 24px;
+  margin-top:8px;
+  margin-bottom: 2px;
+}
+
+.topnav .profile-menu {
+  float: right;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0,0,0,0.25);
+}
+
+.topnav .profile-menu img {
+  display: block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top:10px;
+  cursor: pointer;
+}

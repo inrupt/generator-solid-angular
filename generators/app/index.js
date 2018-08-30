@@ -57,7 +57,7 @@ module.exports = class extends Generator {
 
     );
 */
-    this.fs.copyTpl(
+    this.fs.copy(
       this.templatePath(),
       this.destinationRoot(),
       {
@@ -74,7 +74,7 @@ module.exports = class extends Generator {
 
   install() {
     this.log('Installing dependencies...');
-    const _this = this;
+    /*const _this = this;
     if (this.props.runNpm) {
       this.installDependencies({
         npm: true,
@@ -82,7 +82,8 @@ module.exports = class extends Generator {
           _this.log(`${chalk.bold.underline.green('Dependencies installed!')}`);
         }
       });
-    }
+    }*/
+    this.npmInstall();
     this.completed = true;
   }
 
