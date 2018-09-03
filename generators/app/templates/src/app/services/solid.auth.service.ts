@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Observable, from } from 'rxjs';
-// import * as solid from 'solid-auth-client';
 declare let solid: any;
+
 // Service
 import { RdfService } from './rdf.service';
 
@@ -113,7 +113,7 @@ export class AuthService {
   updateProfile = async (form: NgForm) => {
     try {
       this.fechInit.body = this.solidAuthForm(form);
-      console.log(this.fechInit.body, 'conflict');
+      console.log(this.fechInit.body, 'profile update');
       await solid.auth.fetch(this.rdf.session.webId, this.fechInit);
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -124,7 +124,7 @@ export class AuthService {
     try {
       this.fechInit.body = this.parseUpdateSparkQL({ key, value });
 
-      await solid.auth.fetch(this.rdf.session.webId, this.fechInit);
+      await SolidAuthClient.fetch(this.rdf.session.webId, this.fechInit);
     } catch (error) {
       console.log(`Error: ${error}`);
     }
@@ -141,11 +141,10 @@ export class AuthService {
   }
 
   solidLogin = async (idp: string) => {
-    await solid.auth.login(idp);
-    await this.isSessionActive();
-
-    // popupLogin success redirect to profile
-    this.router.navigate(['/card']);
+    await solid.auth.login(idp, {
+      callbackUri: `${window.location.href}card`,
+      storage: localStorage,
+    });
   }
 
   getIdentityProviders(): object[] {
@@ -158,14 +157,14 @@ export class AuthService {
       },
       {
         providerName: 'Solid Community',
-        providerImage: '/assets/images/Solid.png',
+        providerImage: '/assets/images/SolidAuthClient.png',
         providerLoginUrl: '1',
         providerDesc: 'Lorem ipsum dolor sit non consectetur'
       },
       {
         providerName: 'Janeiro Digital',
         providerImage: '/assets/images/JD.svg',
-        providerLoginUrl: 'https://janeirodigital.exchange/auth',
+        providerLoginUrl: 'https://janeirodigital.exchange/authorize/',
         providerDesc: 'Lorem ipsum dolor sit amet non'
       },
       {

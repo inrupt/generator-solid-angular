@@ -20,7 +20,7 @@ export class RdfService {
   }
 
   getSession = async() => {
-    this.session = await solid.auth.currentSession();
+    this.session = await solid.auth.currentSession(localStorage);
   }
 
   storeAny = (node: string, webId?: string) => {
@@ -71,7 +71,6 @@ export class RdfService {
     }
 
     try {
-      console.log(this.session.webId);
       await this.fetcher.load(this.session.webId);
 
       return {

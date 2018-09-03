@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { currentSession } from 'solid-auth-client';
+// import { currentSession } from 'solid-auth-client';
 
 // Services
 import { AuthService } from '../services/solid.auth.service';
@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadSession = async () => {
-    this.session = await currentSession();
+    // this.session = await currentSession();
   }
 
   onSignOut = () => {

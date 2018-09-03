@@ -16,7 +16,7 @@
       "solid-auth-client": ["node_modules/solid-auth-client/dist-lib/solid-auth-client.bundle.js"],
       "child_process": ["node_modules/stdio"],
       // "RSASSA-PKCS1-v1_5": ["node_modules/@trust/webcrypto/src/algorithms/RSASSA-PKCS1-v1_5.js"]
-      // "window": ["node_modules/whatwg-url"],
+      "window": ["node_modules/whatwg-url"],
     }
   },
   "exclude": [
