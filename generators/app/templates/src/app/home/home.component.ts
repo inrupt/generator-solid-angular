@@ -24,10 +24,12 @@ export class HomeComponent implements OnInit {
       this.router.navigateByUrl('/card');
     }
 
-    // This replicates a provider registry we will get eventually. For now, static array.
     this.identityProviders = this.auth.getIdentityProviders();
   }
 
+  /*
+  *  Alternate login function for Solid. See service for more details.
+  */
   onLoginPopup = async () => {
     this.auth.solidLoginPopup();
   }

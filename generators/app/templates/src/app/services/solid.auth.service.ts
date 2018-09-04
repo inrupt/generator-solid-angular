@@ -39,6 +39,10 @@ export class AuthService {
     this.session = from(solid.auth.currentSession());
   }
 
+  /*
+  *  Alternative login function. This will open a popup that will allow you to choose an identity provider without leaving the current page
+  *  This is recommended if you don't want to leave the current workflow.
+  */
   solidLoginPopup = async () => {
     try {
       await solid.auth.popupLogin({ popupUri: './login'});
@@ -52,6 +56,9 @@ export class AuthService {
     }
   }
 
+  /*
+  * Signs out of Solid in this app, by calling the logout function and clearing the localStorage token
+  */
   solidSignOut = async () => {
     try {
       await solid.auth.logout();
@@ -140,6 +147,11 @@ export class AuthService {
     }
   }
 
+  /*
+  *  Make a call to the solid auth endpoint. It requires an identity provider url, which here is coming from the dropdown, which
+  *  is populated by the getIdentityProviders() function call. It currently requires a callback url and a storage option or else
+  *  the call will fail.
+  */
   solidLogin = async (idp: string) => {
     await solid.auth.login(idp, {
       callbackUri: `${window.location.href}card`,
@@ -147,6 +159,9 @@ export class AuthService {
     });
   }
 
+  /*
+  *  Function to get providers. This is to mimic the future provider registry
+  */
   getIdentityProviders(): object[] {
     return [
       {
