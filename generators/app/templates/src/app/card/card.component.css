@@ -136,3 +136,8 @@
   margin-top:10px;
   cursor: pointer;
 }
+
+.loading-image {
+  text-align: center;
+  margin-top: 50px;
+}

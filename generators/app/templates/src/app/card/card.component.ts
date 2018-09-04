@@ -24,6 +24,7 @@ export class CardComponent implements OnInit  {
     email: null
   };
   profileImage: string;
+  loadingProfile: boolean = true;
 
   @ViewChild('f') cardForm: NgForm;
 
@@ -33,14 +34,17 @@ export class CardComponent implements OnInit  {
     this.loadProfile();
   }
 
+  // Loads the profile from the rdf service and handles the response
   async loadProfile() {
     try {
+      this.loadingProfile = true;
       const profile = await this.rdf.getProfile();
       if (profile) {
         this.profile = profile;
         this.auth.saveOldUserData(profile);
       }
 
+      this.loadingProfile = false;
       this.setupProfileData();
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -48,6 +52,7 @@ export class CardComponent implements OnInit  {
 
   }
 
+  // Submits the form, and saves the profile data using the auth/rdf service
   async onSubmit () {
     if (!this.cardForm.invalid) {
       await this.auth.updateProfile(this.cardForm);
@@ -56,6 +61,8 @@ export class CardComponent implements OnInit  {
     }
   }
 
+  // Format data coming back from server. Intended purpose is to replace profile image with default if it's missing
+  // and potentially format the address if we need to reformat it for this UI
   private setupProfileData() {
     if (this.profile) {
       this.profileImage = this.profile.image ? this.profile.image : '/assets/images/profile.png';
@@ -64,6 +71,7 @@ export class CardComponent implements OnInit  {
     }
   }
 
+  // Example of logout functionality. Normally wouldn't be triggered by clicking the profile picture.
   logout() {
     this.auth.solidSignOut();
   }

@@ -27,8 +27,13 @@
   </div>
   <h1>Profile</h1>
 
+  <!-- LOADING IMAGE -->
+  <div class="loading-image" *ngIf="loadingProfile">
+    <i class="fas fa-circle-notch fa-4x fa-spin"></i>
+  </div>
+
   <!-- MAIN PROFILE -->
-  <div class="profile-fields-container">
+  <div class="profile-fields-container" *ngIf="!loadingProfile">
     <div class="profile-image-container">
       <img [src]="profileImage" />
     </div>
