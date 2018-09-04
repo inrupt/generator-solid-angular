@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NgForm } from '@angular/forms';
 declare let $rdf: any;
 declare let solid: any;
 
@@ -14,6 +15,7 @@ export class RdfService {
   };
   store = $rdf.graph();
   fetcher = new $rdf.Fetcher(this.store);
+  updateManager = new $rdf.UpdateManager(this.store);
 
   constructor () {
     this.getSession();
@@ -37,6 +39,29 @@ export class RdfService {
       return store.value;
     }
     return '';
+  }
+
+  transformDataForm = (form: NgForm, me: any, doc: any) => {
+    const insertion = [];
+    const deletions = [];
+    const fields = Object.keys(form.value);
+
+    fields.map(field => {
+      deletions.push($rdf.st(me, VCARD(field), '', doc));
+      insertion.push($rdf.st(me, VCARD(field), form.value[field], doc));
+    });
+
+    return {
+      deletions,
+      insertion
+    };
+  }
+
+  updateProfile = async (form: NgForm) => {
+    const me = $rdf.sym(this.session.webId);
+    const doc = $rdf.NamedNode.fromValue(this.session.webId.split('#')[0]);
+    const data = this.transformDataForm(form, me, doc);
+    this.updateManager.update(data.deletions, data.insertion, () => {});
   }
 
   getAddress = () => {
@@ -76,7 +101,7 @@ export class RdfService {
       return {
         name : this.storyName('name'),
         company : this.storeAny('organization-name'),
-        phone: this.storeAny('phones'),
+        phone: this.storeAny('phone'),
         role: this.storeAny('role'),
         image: this.storeAny('hasPhoto'),
         address: this.getAddress(),

@@ -74,72 +74,6 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('oldProfileData'));
   }
 
-  parseDeleteSparkQL = () => {
-  }
-
-  parseUpdateSparkQL = (options: { key: string, value: any, oldValue: any }) => {
-    const deleteQuery = `DELETE DATA { <${this.rdf.session.webId}>
-    <http://www.w3.org/2006/vcard/ns#${options.key}> "${options.oldValue}" } `;
-    const insertQuery = `INSERT DATA{ <${this.rdf.session.webId}> <http://www.w3.org/2006/vcard/ns#${options.key}> "${options.value}". } `;
-
-    if (options.oldValue) {
-      return `${deleteQuery} ${insertQuery}`;
-    }
-
-    return insertQuery;
-  }
-
-  parseInsertDeleteSarkQL = (options: { key: string, value: any, action: string }) => {
-    return `${options.action} { <${this.rdf.session.webId}> <http://www.w3.org/2006/vcard/ns#${options.key}> "${options.value}". }`;
-  }
-
-  solidAuthForm = (form: NgForm) => {
-    const values = form.value;
-    const fields = Object.keys(values);
-    const getOldUserData = this.getOldUserData();
-    let bodyRequest = '';
-
-    fields.map((field, index) => {
-      bodyRequest += this.parseUpdateSparkQL({
-        key: field,
-        value: values[field],
-        oldValue: getOldUserData[field],
-      });
-    });
-
-    return bodyRequest;
-  }
-
-  updateProfile = async (form: NgForm) => {
-    try {
-      this.fechInit.body = this.solidAuthForm(form);
-      console.log(this.fechInit.body, 'profile update');
-      await solid.auth.fetch(this.rdf.session.webId, this.fechInit);
-    } catch (error) {
-      console.log(`Error: ${error}`);
-    }
-  }
-
-  /* updateProfile = async (key: string, value: any) => {
-    try {
-      this.fechInit.body = this.parseUpdateSparkQL({ key, value });
-
-      await SolidAuthClient.fetch(this.rdf.session.webId, this.fechInit);
-    } catch (error) {
-      console.log(`Error: ${error}`);
-    }
-  } */
-
-  insertDeleteProfile = async (key: string, value: any, action: string = 'INSERT') => {
-    try {
-      this.fechInit.body = this.parseInsertDeleteSarkQL({ key, value, action });
-
-      await solid.auth.fetch(this.rdf.session.webId, this.fechInit);
-    } catch (error) {
-      console.log(`Error: ${error}`);
-    }
-  }
-
   solidLogin = async (idp: string) => {
     await solid.auth.login(idp, {
       callbackUri: `${window.location.href}card`,
@@ -164,7 +98,7 @@ export class AuthService {
       {
         providerName: 'Janeiro Digital',
         providerImage: '/assets/images/JD.svg',
-        providerLoginUrl: 'https://janeirodigital.exchange/authorize/',
+        providerLoginUrl: 'https://dev.inrupt.net/auth',
         providerDesc: 'Lorem ipsum dolor sit amet non'
       },
       {
