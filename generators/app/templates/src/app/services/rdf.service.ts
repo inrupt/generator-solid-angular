@@ -5,6 +5,7 @@ declare let solid: any;
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 
+// A service layer for retrieving data from rdf sources
 @Injectable({
   providedIn: 'root',
 })
@@ -19,6 +20,7 @@ export class RdfService {
     this.getSession();
   }
 
+  // Fetch session from Solid, and store results in localStorage
   getSession = async() => {
     this.session = await solid.auth.currentSession(localStorage);
   }
