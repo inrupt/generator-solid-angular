@@ -173,7 +173,7 @@ export class AuthService {
       {
         providerName: 'Solid Community',
         providerImage: '/assets/images/Solid.png',
-        providerLoginUrl: '1',
+        providerLoginUrl: 'https://solid.community',
         providerDesc: 'Lorem ipsum dolor sit non consectetur'
       },
       {

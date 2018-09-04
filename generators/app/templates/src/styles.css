@@ -13,6 +13,12 @@ button.wide-button {
   cursor: pointer;
 }
 
+button.wide-button:disabled {
+  background-color: #F0EEEB;
+  border-color: #F0EEEB;
+  cursor: not-allowed;
+}
+
 input[type=text].wide-text {
   width: 360px;
   height: 40px;

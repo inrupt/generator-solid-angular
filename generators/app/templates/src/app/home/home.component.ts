@@ -35,10 +35,14 @@ export class HomeComponent implements OnInit {
   }
 
   onLogin = async () => {
-    try {
-      this.auth.solidLogin(this.selectedProviderUrl);
-    } catch (err) {
-      console.log('An error has occurred logging in: ' + err);
+    let idp: string = this.selectedProviderUrl ? this.selectedProviderUrl : this.customProviderUrl;
+
+    if(idp) {
+      try {
+        this.auth.solidLogin(idp);
+      } catch (err) {
+        console.log('An error has occurred logging in: ' + err);
+      }
     }
   }
 
