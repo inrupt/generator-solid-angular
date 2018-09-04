@@ -24,19 +24,25 @@ export class HomeComponent implements OnInit {
       this.router.navigateByUrl('/card');
     }
 
-    // This replicates a provider registry we will get eventually. For now, static array.
     this.identityProviders = this.auth.getIdentityProviders();
   }
 
+  /*
+  *  Alternate login function for Solid. See service for more details.
+  */
   onLoginPopup = async () => {
     this.auth.solidLoginPopup();
   }
 
   onLogin = async () => {
-    try {
-      this.auth.solidLogin(this.selectedProviderUrl);
-    } catch (err) {
-      console.log('An error has occurred logging in: ' + err);
+    let idp: string = this.selectedProviderUrl ? this.selectedProviderUrl : this.customProviderUrl;
+
+    if(idp) {
+      try {
+        this.auth.solidLogin(idp);
+      } catch (err) {
+        console.log('An error has occurred logging in: ' + err);
+      }
     }
   }
 
