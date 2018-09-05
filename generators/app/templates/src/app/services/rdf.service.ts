@@ -47,9 +47,12 @@ export class RdfService {
     const insertion = [];
     const deletions = [];
     const fields = Object.keys(form.value);
+    const oldProfileData = JSON.parse(localStorage.getItem('oldProfileData'));
 
     fields.map(field => {
-      deletions.push($rdf.st(me, VCARD(field), '', doc));
+      field = field === 'company' ? 'organization-name' : field;
+
+      deletions.push($rdf.st(me, VCARD(field), oldProfileData[field], doc));
       insertion.push($rdf.st(me, VCARD(field), form.value[field], doc));
     });
 

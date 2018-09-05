@@ -57,7 +57,7 @@ export class CardComponent implements OnInit  {
     if (!this.cardForm.invalid) {
       await this.rdf.updateProfile(this.cardForm);
 
-      localStorage.removeItem('oldProfileData');
+      localStorage.setItem('oldProfileData', JSON.stringify(this.profile));
     }
   }
 
