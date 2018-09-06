@@ -32,6 +32,10 @@ export class CardComponent implements OnInit  {
 
   ngOnInit() {
     this.loadProfile();
+
+    //Clear cached profile data
+    //TODO: Remove this code and find a better way to get the old data
+    localStorage.removeItem('oldProfileData');
   }
 
   // Loads the profile from the rdf service and handles the response
@@ -55,9 +59,13 @@ export class CardComponent implements OnInit  {
   // Submits the form, and saves the profile data using the auth/rdf service
   async onSubmit () {
     if (!this.cardForm.invalid) {
-      await this.rdf.updateProfile(this.cardForm);
+      try {
+        await this.rdf.updateProfile(this.cardForm);
 
-      localStorage.setItem('oldProfileData', JSON.stringify(this.profile));
+        localStorage.setItem('oldProfileData', JSON.stringify(this.profile));
+      } catch(err) {
+        console.log(`Error: ${err}`);
+      }
     }
   }
 

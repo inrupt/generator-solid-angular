@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
     const isLoggedIn = localStorage.getItem('solid-auth-client') ? true : false;
 
     if (!isLoggedIn) {
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/home');
     }
 
     return isLoggedIn; /* this.auth.session.pipe(

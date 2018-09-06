@@ -101,7 +101,7 @@ export class AuthService {
       {
         providerName: 'Inrupt',
         providerImage: '/assets/images/Inrupt.png',
-        providerLoginUrl: '0',
+        providerLoginUrl: 'https://dev.inrupt.net/auth',
         providerDesc: 'Lorem ipsum dolor sit amet non ipsom dolor'
       },
       {
@@ -113,7 +113,7 @@ export class AuthService {
       {
         providerName: 'Janeiro Digital',
         providerImage: '/assets/images/JD.svg',
-        providerLoginUrl: 'https://dev.inrupt.net/auth',
+        providerLoginUrl: 'https://janeirodigital.exchange/auth',
         providerDesc: 'Lorem ipsum dolor sit amet non'
       },
       {

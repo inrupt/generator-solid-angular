@@ -27,7 +27,7 @@ export class RdfService {
     this.session = await solid.auth.currentSession(localStorage);
   }
 
-  storeAny = (node: string, webId?: string) => {
+  getValueFromVcard = (node: string, webId?: string) => {
     const store = this.store.any($rdf.sym(webId || this.session.webId), VCARD(node));
     if (store) {
       return store.value;
@@ -35,7 +35,7 @@ export class RdfService {
     return '';
   }
 
-  storyName = (node: string, webId?: string) => {
+  getValueFromFoaf = (node: string, webId?: string) => {
     const store = this.store.any($rdf.sym(webId || this.session.webId), FOAF(node));
     if (store) {
       return store.value;
@@ -44,54 +44,158 @@ export class RdfService {
   }
 
   transformDataForm = (form: NgForm, me: any, doc: any) => {
-    const insertion = [];
+    const insertions = [];
     const deletions = [];
     const fields = Object.keys(form.value);
     const oldProfileData = JSON.parse(localStorage.getItem('oldProfileData'));
 
+    // We need to split out into three code paths here:
+    // 1. There is an old value and a new value. This is the update path
+    // 2. There is no old value and a new value. This is the insert path
+    // 3. There is an old value and no new value. Ths is the delete path
+    // These are separate codepaths because the system needs to know what to do in each case
     fields.map(field => {
-      field = field === 'company' ? 'organization-name' : field;
 
-      deletions.push($rdf.st(me, VCARD(field), oldProfileData[field], doc));
-      insertion.push($rdf.st(me, VCARD(field), form.value[field], doc));
+      //Field name for use with rdf data. Pulled out because the naming convention isn't usable in javascript
+      let fieldName = this.getFieldName(field);
+      let linkedUri = this.getUriForField(field, me);
+      let fieldValue = this.getFieldValue(form, field);
+      let oldFieldValue = this.getOldFieldValue(field, oldProfileData);
+
+
+      //Add a value to be updated
+      if(oldProfileData[field] && form.value[field] && !form.controls[field].pristine) {
+        deletions.push($rdf.st(linkedUri, VCARD(fieldName), oldFieldValue, doc));
+        insertions.push($rdf.st(linkedUri, VCARD(fieldName), fieldValue, doc));
+      }
+
+      //Add a value to be deleted
+      else if(oldProfileData[field] && !form.value[field] && !form.controls[field].pristine) {
+        deletions.push($rdf.st(linkedUri, VCARD(fieldName), oldFieldValue, doc));
+      }
+
+      //Add a value to be inserted
+      else if(!oldProfileData[field] && form.value[field] && !form.controls[field].pristine) {
+        insertions.push($rdf.st(linkedUri, VCARD(fieldName), fieldValue, doc));
+      }
     });
 
     return {
-      deletions,
-      insertion
+      insertions: insertions,
+      deletions: deletions
     };
+  }
+
+  private getUriForField(field, me): string {
+    let uri: any;
+
+    switch(field) {
+      case 'phone':
+        uri = $rdf.sym(this.getValueFromVcard('hasTelephone'));
+        break;
+      case 'email':
+        uri = $rdf.sym(this.getValueFromVcard('hasEmail'));
+        break;
+      default:
+        uri = me;
+        break;
+    }
+
+    return uri;
+  }
+
+  private getFieldValue(form, field): any {
+    let fieldValue: any;
+
+    switch(field) {
+      case 'phone':
+        fieldValue = $rdf.sym('tel:'+form.value[field]);
+        break;
+      case 'email':
+        fieldValue = $rdf.sym('mailto:'+form.value[field]);
+        break;
+      default:
+        fieldValue = form.value[field];
+        break;
+    }
+
+    return fieldValue;
+  }
+
+  private getOldFieldValue(field, oldProfile): any {
+    let oldValue: any;
+
+    switch(field) {
+      case 'phone':
+        oldValue = $rdf.sym('tel:'+oldProfile[field]);
+        break;
+      case 'email':
+        oldValue = $rdf.sym('mailto:'+oldProfile[field]);
+        break;
+      default:
+        oldValue = oldProfile[field];
+        break;
+    }
+
+    return oldValue;
+  }
+
+  private getFieldName(field): string {
+    switch (field) {
+      case 'company':
+        return 'organization-name';
+      case 'phone':
+      case 'email':
+        return 'value';
+      default:
+        return field;
+    }
   }
 
   updateProfile = async (form: NgForm) => {
     const me = $rdf.sym(this.session.webId);
     const doc = $rdf.NamedNode.fromValue(this.session.webId.split('#')[0]);
     const data = this.transformDataForm(form, me, doc);
-    this.updateManager.update(data.deletions, data.insertion, () => {});
+
+    //Update existing values
+    if(data.insertions.length > 0 || data.deletions.length > 0) {
+      this.updateManager.update(data.deletions, data.insertions, () => {});
+    }
   }
 
   getAddress = () => {
-    const linkedUri = this.storeAny('hasAddress');
+    const linkedUri = this.getValueFromVcard('hasAddress');
 
     if (linkedUri) {
       return {
-        locality: this.storeAny('locality', linkedUri),
-        country_name: this.storeAny('country-name', linkedUri),
-        region: this.storeAny('region', linkedUri),
-        street: this.storeAny('street-address', linkedUri),
+        locality: this.getValueFromVcard('locality', linkedUri),
+        country_name: this.getValueFromVcard('country-name', linkedUri),
+        region: this.getValueFromVcard('region', linkedUri),
+        street: this.getValueFromVcard('street-address', linkedUri),
       };
     }
 
     return {};
   }
 
+  //Function to get email. This returns only the first email, which is temporary
   getEmail = () => {
-    const linkedUri = this.storeAny('hasEmail');
+    const linkedUri = this.getValueFromVcard('hasEmail');
 
     if (linkedUri) {
-      return this.storeAny('value', linkedUri).split('mailto:')[1];
+      return this.getValueFromVcard('value', linkedUri).split('mailto:')[1];
     }
 
     return '';
+  }
+
+  //Function to get phone number. This returns only the first phone number, which is temporary. It also ignores the type.
+  getPhone = () => {
+    const linkedUri = this.getValueFromVcard('hasTelephone');
+
+    if(linkedUri) {
+      return this.getValueFromVcard('value', linkedUri).split('tel:')[1];
+    }
   }
 
   getProfile = async () => {
@@ -104,16 +208,16 @@ export class RdfService {
       await this.fetcher.load(this.session.webId);
 
       return {
-        name : this.storyName('name'),
-        company : this.storeAny('organization-name'),
-        phone: this.storeAny('phone'),
-        role: this.storeAny('role'),
-        image: this.storeAny('hasPhoto'),
+        fn : this.getValueFromVcard('fn'),
+        company : this.getValueFromVcard('organization-name'),
+        phone: this.getPhone(),
+        role: this.getValueFromVcard('role'),
+        image: this.getValueFromVcard('hasPhoto'),
         address: this.getAddress(),
         email: this.getEmail(),
       };
     } catch (error) {
-      console.log(`Error fecther: ${error}`);
+      console.log(`Error fetching data: ${error}`);
     }
   }
 }
