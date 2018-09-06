@@ -14,6 +14,8 @@ import { AuthGuard } from './services/auth.guard.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -49,13 +51,15 @@ const routes: Routes = [
     HomeComponent,
     DashboardComponent,
     CardComponent,
-    RegisterComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    NgSelectModule
+    NgSelectModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule //required for toastr
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

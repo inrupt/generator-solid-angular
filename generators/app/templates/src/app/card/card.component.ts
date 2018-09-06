@@ -28,7 +28,8 @@ export class CardComponent implements OnInit  {
 
   @ViewChild('f') cardForm: NgForm;
 
-  constructor(private rdf: RdfService, private route: ActivatedRoute, private auth: AuthService) {}
+  constructor(private rdf: RdfService,
+    private route: ActivatedRoute, private auth: AuthService) {}
 
   ngOnInit() {
     this.loadProfile();
@@ -61,7 +62,7 @@ export class CardComponent implements OnInit  {
     if (!this.cardForm.invalid) {
       try {
         await this.rdf.updateProfile(this.cardForm);
-
+        
         localStorage.setItem('oldProfileData', JSON.stringify(this.profile));
       } catch(err) {
         console.log(`Error: ${err}`);

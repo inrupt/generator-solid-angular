@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 declare let $rdf: any;
 declare let solid: any;
 
@@ -18,7 +19,7 @@ export class RdfService {
   fetcher = new $rdf.Fetcher(this.store);
   updateManager = new $rdf.UpdateManager(this.store);
 
-  constructor () {
+  constructor (private toastr: ToastrService) {
     this.getSession();
   }
 
@@ -159,7 +160,15 @@ export class RdfService {
 
     //Update existing values
     if(data.insertions.length > 0 || data.deletions.length > 0) {
-      this.updateManager.update(data.deletions, data.insertions, () => {});
+      this.updateManager.update(data.deletions, data.insertions, (response, success, message) => {
+        if(success) {
+          this.toastr.success('Your Solid profile has been successfully updated', 'Success!');
+          form.form.markAsPristine();
+          form.form.markAsTouched();
+        } else {
+          this.toastr.error('Message: '+ message, 'An error has occurred');
+        }
+      });
     }
   }
 
