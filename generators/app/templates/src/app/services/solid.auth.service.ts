@@ -111,12 +111,6 @@ export class AuthService {
         providerDesc: 'Lorem ipsum dolor sit non consectetur'
       },
       {
-        providerName: 'Janeiro Digital',
-        providerImage: '/assets/images/JD.svg',
-        providerLoginUrl: 'https://janeirodigital.exchange/auth',
-        providerDesc: 'Lorem ipsum dolor sit amet non'
-      },
-      {
         providerName: 'Other (Enter WebID)',
         providerImage: '/assets/images/Generic.png',
         providerLoginUrl: null
