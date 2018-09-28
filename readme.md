@@ -16,19 +16,23 @@ You can do this by running the following command
 npm install -g @angular/cli
 ```
 
+Another thing you will need to install manually is yeoman itself, if you don't already have it. You can install yeoman using the following command:
+```
+npm install -g yo
+```
 
 ### Installing
 
 The easiest way to install the yeoman generator is using npm. To install, you can run the command
 ```
-npm install -g generator-solid-angular
+npm install -g @inrupt/generator-solid-angular
 ```
 
 ## Using the Generator
 
 Once it's installed, you can run the generator using a command line interface. First, navigate to the parent folder you wish to create the new project. Next, run the command
 ```
-yo solid-angular
+yo @inrupt/solid-angular
 ```
 This will open a prompt with a few questions, such as the project name. Note the project name will also be your root folder name.
 
