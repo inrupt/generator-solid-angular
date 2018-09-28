@@ -52,7 +52,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
+    LoginPopupComponent,
     DashboardComponent,
     CardComponent,
     RegisterComponent
