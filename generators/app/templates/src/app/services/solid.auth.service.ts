@@ -40,12 +40,12 @@ export class AuthService {
   }
 
   /*
-  *  Alternative login function. This will open a popup that will allow you to choose an identity provider without leaving the current page
+  *  Alternative login-popup function. This will open a popup that will allow you to choose an identity provider without leaving the current page
   *  This is recommended if you don't want to leave the current workflow.
   */
   solidLoginPopup = async () => {
     try {
-      await solid.auth.popupLogin({ popupUri: './login'});
+      await solid.auth.popupLogin({ popupUri: './login-popup'});
       // Check if session is valid to avoid redirect issues
       await this.isSessionActive();
 
@@ -64,7 +64,7 @@ export class AuthService {
       await solid.auth.logout();
       // Remove localStorage
       localStorage.removeItem('solid-auth-client');
-      // Redirect to home page
+      // Redirect to login page
       this.router.navigate(['/']);
     } catch (error) {
       console.log(`Error: ${error}`);

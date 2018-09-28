@@ -1,5 +1,8 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-declare let popup: any;
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+// Auth Service
+import { AuthService } from '../services/solid.auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -8,20 +11,42 @@ declare let popup: any;
 })
 export class LoginComponent implements OnInit {
 
+  constructor(private auth: AuthService, private router: Router) { }
 
-
-  constructor(private elementRef: ElementRef) {}
+  // TODO: Provide models and definitions for these objects
+  identityProviders: object[];
+  selectedProviderUrl: string;
+  customProviderUrl: string;
 
   ngOnInit() {
-    this.runScript();
+    // If we're authenticated, go to profile
+    if (localStorage.getItem('solid-auth-client')) {
+      this.router.navigateByUrl('/card');
+    }
+
+    this.identityProviders = this.auth.getIdentityProviders();
   }
 
-  runScript () {
-    const s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.src = '/assets/js/libs/popup.js';
-    this.elementRef.nativeElement.appendChild(s);
-    // s.onload = () => this.triggerDuo();
+  /*
+  *  Alternate login-popup function for Solid. See service for more details.
+  */
+  onLoginPopup = async () => {
+    this.auth.solidLoginPopup();
   }
 
+  onLogin = async () => {
+    let idp: string = this.selectedProviderUrl ? this.selectedProviderUrl : this.customProviderUrl;
+
+    if(idp) {
+      try {
+        this.auth.solidLogin(idp);
+      } catch (err) {
+        console.log('An error has occurred logging in: ' + err);
+      }
+    }
+  }
+
+  goToRegistration() {
+    this.router.navigateByUrl('/register');
+  }
 }
