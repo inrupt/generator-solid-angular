@@ -7,6 +7,8 @@ import { AuthService } from '../services/solid.auth.service';
 
 class Session {
   constructor() {}
+
+  webId: string;
 }
 
 @Component({
@@ -15,7 +17,7 @@ class Session {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  session: Session = {};
+  session: Session = new Session();
 
   constructor(private auth: AuthService, private route: ActivatedRoute) {}
 
