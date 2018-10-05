@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import {P} from "@angular/core/src/render3";
 declare let $rdf: any;
 declare let solid: any;
 
@@ -34,7 +35,7 @@ export class RdfService {
       return store.value;
     }
     return '';
-  }
+  };
 
   getValueFromFoaf = (node: string, webId?: string) => {
     const store = this.store.any($rdf.sym(webId || this.session.webId), FOAF(node));
@@ -42,13 +43,13 @@ export class RdfService {
       return store.value;
     }
     return '';
-  }
+  };
 
   transformDataForm = (form: NgForm, me: any, doc: any) => {
     const insertions = [];
     const deletions = [];
     const fields = Object.keys(form.value);
-    const oldProfileData = JSON.parse(localStorage.getItem('oldProfileData'));
+    const oldProfileData = JSON.parse(localStorage.getItem('oldProfileData')) || {};
 
     // We need to split out into three code paths here:
     // 1. There is an old value and a new value. This is the update path
@@ -57,27 +58,33 @@ export class RdfService {
     // These are separate codepaths because the system needs to know what to do in each case
     fields.map(field => {
 
-      //Field name for use with rdf data. Pulled out because the naming convention isn't usable in javascript
-      let fieldName = this.getFieldName(field);
-      let linkedUri = this.getUriForField(field, me);
+      let predicate = VCARD(this.getFieldName(field));
+      let subject = this.getUriForField(field, me);
+      let why = doc;
+
       let fieldValue = this.getFieldValue(form, field);
       let oldFieldValue = this.getOldFieldValue(field, oldProfileData);
 
+      // if there's no existing home phone number or email address, we need to add one, then add the link for hasTelephone or hasEmail
+      if(!oldFieldValue && fieldValue && (field === 'phone' || field==='email')) {
+        this.addNewLinkedField(field, insertions, predicate, fieldValue, why, me);
+      } else {
 
-      //Add a value to be updated
-      if(oldProfileData[field] && form.value[field] && !form.controls[field].pristine) {
-        deletions.push($rdf.st(linkedUri, VCARD(fieldName), oldFieldValue, doc));
-        insertions.push($rdf.st(linkedUri, VCARD(fieldName), fieldValue, doc));
-      }
+        //Add a value to be updated
+        if (oldProfileData[field] && form.value[field] && !form.controls[field].pristine) {
+          deletions.push($rdf.st(subject, predicate, oldFieldValue, why));
+          insertions.push($rdf.st(subject, predicate, fieldValue, why));
+        }
 
-      //Add a value to be deleted
-      else if(oldProfileData[field] && !form.value[field] && !form.controls[field].pristine) {
-        deletions.push($rdf.st(linkedUri, VCARD(fieldName), oldFieldValue, doc));
-      }
+        //Add a value to be deleted
+        else if (oldProfileData[field] && !form.value[field] && !form.controls[field].pristine) {
+          deletions.push($rdf.st(subject, predicate, oldFieldValue, why));
+        }
 
-      //Add a value to be inserted
-      else if(!oldProfileData[field] && form.value[field] && !form.controls[field].pristine) {
-        insertions.push($rdf.st(linkedUri, VCARD(fieldName), fieldValue, doc));
+        //Add a value to be inserted
+        else if (!oldProfileData[field] && form.value[field] && !form.controls[field].pristine) {
+          insertions.push($rdf.st(subject, predicate, fieldValue, why));
+        }
       }
     });
 
@@ -85,17 +92,46 @@ export class RdfService {
       insertions: insertions,
       deletions: deletions
     };
+  };
+
+  private addNewLinkedField(field, insertions, predicate, fieldValue, why, me: any) {
+    //Generate a new ID. This id can be anything but needs to be unique.
+    let newId = field + ':' + Date.now();
+
+    //Get a new subject, using the new ID
+    let newSubject = $rdf.sym(this.session.webId.split('#')[0] + '#' + newId);
+
+    //Set new predicate, based on email or phone fields
+    let newPredicate = field === 'phone' ? $rdf.sym(VCARD('hasTelephone')) : $rdf.sym(VCARD('hasEmail'));
+
+    //Add new phone or email to the pod
+    insertions.push($rdf.st(newSubject, predicate, fieldValue, why));
+
+    //Set the type (defaults to Home/Personal for now) and insert it into the pod as well
+    //Todo: Make this dynamic
+    let type = field === 'phone' ? $rdf.literal('Home') : $rdf.literal('Personal');
+    insertions.push($rdf.st(newSubject, VCARD('type'), type, why));
+
+    //Add a link in #me to the email/phone number (by id)
+    insertions.push($rdf.st(me, newPredicate, newSubject, why));
   }
 
   private getUriForField(field, me): string {
+    let uriString: string;
     let uri: any;
 
     switch(field) {
       case 'phone':
-        uri = $rdf.sym(this.getValueFromVcard('hasTelephone'));
+        uriString = this.getValueFromVcard('hasTelephone');
+        if(uriString) {
+          uri = $rdf.sym(uriString);
+        }
         break;
       case 'email':
-        uri = $rdf.sym(this.getValueFromVcard('hasEmail'));
+        uriString = this.getValueFromVcard('hasEmail');
+        if(uriString) {
+          uri = $rdf.sym(uriString);
+        }
         break;
       default:
         uri = me;
@@ -108,9 +144,13 @@ export class RdfService {
   private getFieldValue(form, field): any {
     let fieldValue: any;
 
+    if(!form.value[field]) {
+      return;
+    }
+
     switch(field) {
       case 'phone':
-        fieldValue = $rdf.sym('tel:'+form.value[field]);
+        fieldValue = $rdf.sym('tel:+'+form.value[field]);
         break;
       case 'email':
         fieldValue = $rdf.sym('mailto:'+form.value[field]);
@@ -126,9 +166,13 @@ export class RdfService {
   private getOldFieldValue(field, oldProfile): any {
     let oldValue: any;
 
+    if(!oldProfile || !oldProfile[field]) {
+      return;
+    }
+
     switch(field) {
       case 'phone':
-        oldValue = $rdf.sym('tel:'+oldProfile[field]);
+        oldValue = $rdf.sym('tel:+'+oldProfile[field]);
         break;
       case 'email':
         oldValue = $rdf.sym('mailto:'+oldProfile[field]);
@@ -170,7 +214,7 @@ export class RdfService {
         }
       });
     }
-  }
+  };
 
   getAddress = () => {
     const linkedUri = this.getValueFromVcard('hasAddress');
@@ -185,7 +229,7 @@ export class RdfService {
     }
 
     return {};
-  }
+  };
 
   //Function to get email. This returns only the first email, which is temporary
   getEmail = () => {
@@ -203,9 +247,9 @@ export class RdfService {
     const linkedUri = this.getValueFromVcard('hasTelephone');
 
     if(linkedUri) {
-      return this.getValueFromVcard('value', linkedUri).split('tel:')[1];
+      return this.getValueFromVcard('value', linkedUri).split('tel:+')[1];
     }
-  }
+  };
 
   getProfile = async () => {
 
@@ -228,5 +272,5 @@ export class RdfService {
     } catch (error) {
       console.log(`Error fetching data: ${error}`);
     }
-  }
+  };
 }
