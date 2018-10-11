@@ -1,0 +1,52 @@
+{
+  "_from": "@types/rdflib",
+  "_id": "@types/rdflib@0.17.0",
+  "_inBundle": false,
+  "_integrity": "sha512-AoJnpg+G6pz4E8kCQlGTpJVCrFJgYDQkh12YbabOKhAxyHMOs/DMkT0el+zYmIYDze+e3kcAwwM0c2uSoZq2zw==",
+  "_location": "/@types/rdflib",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@types/rdflib",
+    "name": "@types/rdflib",
+    "escapedName": "@types%2frdflib",
+    "scope": "@types",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/@types/rdflib/-/rdflib-0.17.0.tgz",
+  "_shasum": "1d7aacc4dacb466b504758cca12a40bf53bb7fcd",
+  "_spec": "@types/rdflib",
+  "_where": "/Users/alfredo/projects/ng-solid-material",
+  "bugs": {
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+  },
+  "bundleDependencies": [],
+  "contributors": [
+    {
+      "name": "Cénotélie",
+      "url": "https://github.com/cenotelie"
+    }
+  ],
+  "dependencies": {},
+  "deprecated": false,
+  "description": "TypeScript definitions for rdflib",
+  "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped#readme",
+  "license": "MIT",
+  "main": "",
+  "name": "@types/rdflib",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+  },
+  "scripts": {},
+  "typeScriptVersion": "2.0",
+  "typesPublisherContentHash": "e47de20f5f69dff9556700bb57af6d3c8a588c207749f5c6d32c79aece3146e6",
+  "version": "0.17.0"
+}
