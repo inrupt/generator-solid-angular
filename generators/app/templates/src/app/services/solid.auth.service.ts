@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 import { Observable, from } from 'rxjs';
-declare let solid: any;
-
-// Service
 import { RdfService } from './rdf.service';
+import { SolidProvider } from '../models/solid-provider.model';
+declare let solid: any;
 
 interface SolidSession {
   accessToken: string;
@@ -39,10 +37,11 @@ export class AuthService {
     this.session = from(solid.auth.currentSession());
   }
 
-  /*
-  *  Alternative login-popup function. This will open a popup that will allow you to choose an identity provider without leaving the current page
-  *  This is recommended if you don't want to leave the current workflow.
-  */
+  /**
+   * Alternative login-popup function. This will open a popup that will allow you to choose an identity provider
+   * without leaving the current page
+   * This is recommended if you don't want to leave the current workflow.
+   */
   solidLoginPopup = async () => {
     try {
       await solid.auth.popupLogin({ popupUri: './login-popup'});
@@ -93,28 +92,35 @@ export class AuthService {
     });
   }
 
-  /*
-  *  Function to get providers. This is to mimic the future provider registry
-  */
-  getIdentityProviders(): object[] {
+  /**
+   * Function to get providers. This is to mimic the future provider registry
+   *
+   * @return {SolidProvider[]} A list of SolidProviders
+   */
+  getIdentityProviders(): SolidProvider[] {
+    const inruptProvider: SolidProvider = {
+      name: 'Inrupt',
+      image: '/assets/images/Inrupt.png',
+      loginUrl: 'https://inrupt.net/auth',
+      desc: 'Inrupt Inc. provider'
+    };
+    const solidCommunityProvider: SolidProvider = {
+      name: 'Solid Community',
+      image: '/assets/images/Solid.png',
+      loginUrl: 'https://solid.community',
+      desc: 'A provider maintained by the Solid Community'
+    };
+    const otherProvider: SolidProvider = {
+      name: 'Other (Enter WebID)',
+      image: '/assets/images/Generic.png',
+      loginUrl: null,
+      desc: 'Generic provider'
+    };
+
     return [
-      {
-        providerName: 'Inrupt',
-        providerImage: '/assets/images/Inrupt.png',
-        providerLoginUrl: 'https://inrupt.net/auth',
-        providerDesc: 'Lorem ipsum dolor sit amet non ipsom dolor'
-      },
-      {
-        providerName: 'Solid Community',
-        providerImage: '/assets/images/Solid.png',
-        providerLoginUrl: 'https://solid.community',
-        providerDesc: 'Lorem ipsum dolor sit non consectetur'
-      },
-      {
-        providerName: 'Other (Enter WebID)',
-        providerImage: '/assets/images/Generic.png',
-        providerLoginUrl: null
-      }
+      inruptProvider,
+      solidCommunityProvider,
+      otherProvider
     ];
   }
 }
