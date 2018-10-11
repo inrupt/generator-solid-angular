@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // Auth Service
 import { AuthService } from '../services/solid.auth.service';
+import { SolidProvider } from '../models/solid-provider.model';
 
 
 @Component({
@@ -13,8 +14,11 @@ export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) { }
 
-  // TODO: Provide models and definitions for these objects
-  identityProviders: object[];
+  /**
+   * A list of Solid Identity Providers
+   * @type {SolidProvider[]}
+   */
+  identityProviders: SolidProvider[];
   selectedProviderUrl: string;
   customProviderUrl: string;
 
@@ -35,9 +39,9 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin = async () => {
-    let idp: string = this.selectedProviderUrl ? this.selectedProviderUrl : this.customProviderUrl;
+    const idp: string = this.selectedProviderUrl ? this.selectedProviderUrl : this.customProviderUrl;
 
-    if(idp) {
+    if (idp) {
       try {
         this.auth.solidLogin(idp);
       } catch (err) {

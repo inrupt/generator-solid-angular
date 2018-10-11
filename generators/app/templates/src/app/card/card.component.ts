@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-// Auth Service
+import { SolidProfile } from '../models/solid-profile.model';
 import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
 
@@ -13,18 +13,9 @@ import { AuthService } from '../services/solid.auth.service';
 })
 export class CardComponent implements OnInit  {
 
-  // TODO: Make a model
-  profile: any = {
-    image: null,
-    name: null,
-    address: {},
-    organization: null,
-    role: null,
-    phone: null,
-    email: null
-  };
+  profile: SolidProfile;
   profileImage: string;
-  loadingProfile: boolean = true;
+  loadingProfile: Boolean;
 
   @ViewChild('f') cardForm: NgForm;
 
@@ -32,10 +23,11 @@ export class CardComponent implements OnInit  {
     private route: ActivatedRoute, private auth: AuthService) {}
 
   ngOnInit() {
+    this.loadingProfile = true;
     this.loadProfile();
 
-    //Clear cached profile data
-    //TODO: Remove this code and find a better way to get the old data
+    // Clear cached profile data
+    // TODO: Remove this code and find a better way to get the old data
     localStorage.removeItem('oldProfileData');
   }
 
@@ -62,9 +54,8 @@ export class CardComponent implements OnInit  {
     if (!this.cardForm.invalid) {
       try {
         await this.rdf.updateProfile(this.cardForm);
-        
         localStorage.setItem('oldProfileData', JSON.stringify(this.profile));
-      } catch(err) {
+      } catch (err) {
         console.log(`Error: ${err}`);
       }
     }
