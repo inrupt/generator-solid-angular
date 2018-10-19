@@ -1,50 +1,82 @@
 import { Injectable } from '@angular/core';
+import { SolidSession } from '../models/solid-session.model';
+import * as $rdf from 'rdflib'
+declare let solid: any;
+// TODO: Remove any UI interaction from this service
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import {P} from "@angular/core/src/render3";
-declare let $rdf: any;
-declare let solid: any;
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 
-// A service layer for retrieving data from rdf sources
+/**
+ * A service layer for RDF data manipulation using rdflib.js
+ * @see https://solid.inrupt.com/docs/manipulating-ld-with-rdflib
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class RdfService {
-  session: {
-    webId: string,
-  };
+
+  session: SolidSession;
   store = $rdf.graph();
-  fetcher = new $rdf.Fetcher(this.store);
-  updateManager = new $rdf.UpdateManager(this.store);
+
+  /**
+   * A helper object that connects to the web, loads data, and saves it back. More powerful than using a simple
+   * store object.
+   * When you have a fetcher, then you also can ask the query engine to go fetch new linked data automatically
+   * as your query makes its way across the web.
+   * @see http://linkeddata.github.io/rdflib.js/doc/Fetcher.html
+   */
+  fetcher: $rdf.Fetcher;
+
+  /**
+   * The UpdateManager allows you to send small changes to the server to “patch” the data as your user changes data in
+   * real time. It also allows you to subscribe to changes other people make to the same file, keeping track of
+   * upstream and downstream changes, and signaling any conflict between them.
+   * @see http://linkeddata.github.io/rdflib.js/doc/UpdateManager.html
+   */
+  updateManager: $rdf.UpdateManager;
 
   constructor (private toastr: ToastrService) {
+    const fetcherOptions = {};
+    this.fetcher = new $rdf.Fetcher(this.store, fetcherOptions);
+    this.updateManager = new $rdf.UpdateManager(this.store);
     this.getSession();
   }
 
-  // Fetch session from Solid, and store results in localStorage
+  /**
+   * Fetches the session from Solid, and store results in localStorage
+   */
   getSession = async() => {
     this.session = await solid.auth.currentSession(localStorage);
   }
 
-  getValueFromVcard = (node: string, webId?: string) => {
-    const store = this.store.any($rdf.sym(webId || this.session.webId), VCARD(node));
-    if (store) {
-      return store.value;
-    }
-    return '';
+  /**
+   * Gets a node that matches the specified pattern using the VCARD onthology
+   *
+   * any() can take a subject and a predicate to find Any one person identified by the webId
+   * that matches against the node/predicated
+   *
+   * @param {string} node VCARD predicate to apply to the $rdf.any()
+   * @param {string?} webId The webId URL (e.g. https://yourpod.solid.community/profile/card#me)
+   * @return {string} The value of the fetched node or an emtpty string
+   * @see https://github.com/solid/solid-tutorial-rdflib.js
+   */
+  getValueFromVcard = (node: string, webId?: string): string | any => {
+    return this.getValueFromNamespace(node, VCARD, webId);
   };
 
+  /**
+   * Gets a node that matches the specified pattern using the FOAF onthology
+   * @param {string} node FOAF predicate to apply to the $rdf.any()
+   * @param {string?} webId The webId URL (e.g. https://yourpod.solid.community/profile/card#me)
+   * @return {string} The value of the fetched node or an emtpty string
+   */
   getValueFromFoaf = (node: string, webId?: string) => {
-    const store = this.store.any($rdf.sym(webId || this.session.webId), FOAF(node));
-    if (store) {
-      return store.value;
-    }
-    return '';
+    return this.getValueFromNamespace(node, FOAF, webId);
   };
-
+ 
   transformDataForm = (form: NgForm, me: any, doc: any) => {
     const insertions = [];
     const deletions = [];
@@ -141,7 +173,13 @@ export class RdfService {
     return uri;
   }
 
-  private getFieldValue(form, field): any {
+  /**
+   * Extracts the value of a field of a NgForm and converts it to a $rdf.NamedNode
+   * @param {NgForm} form
+   * @param {string} field The name of the field that is going to be extracted from the form
+   * @return {RdfNamedNode}
+   */
+  private getFieldValue(form: NgForm, field: string): any {
     let fieldValue: any;
 
     if(!form.value[field]) {
@@ -273,4 +311,18 @@ export class RdfService {
       console.log(`Error fetching data: ${error}`);
     }
   };
+
+  /**
+   * Gets any resource that matches the node, using the provided Namespace
+   * @param {string} node The name of the predicate to be applied using the provided Namespace 
+   * @param {$rdf.namespace} namespace The RDF Namespace
+   * @param {string?} webId The webId URL (e.g. https://yourpod.solid.community/profile/card#me) 
+   */
+  private getValueFromNamespace(node: string, namespace: $rdf.Namespace, webId?: string): string | any {
+    const store = this.store.any($rdf.sym(webId || this.session.webId), namespace(node));
+    if (store) {
+      return store.value;
+    }
+    return '';
+  }
 }
