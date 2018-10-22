@@ -17,9 +17,9 @@
   <!-- Provider cards -->
   <div class="provider-card-container">
     <div class="provider-card" *ngFor="let provider of availableProviders">
-      <img [src]="provider.providerImage" class="provider-logo">
-      <h2>{{ provider.providerName }}</h2>
-      <p>{{ provider.providerDesc }}</p>
+      <img [src]="provider.image" class="provider-logo">
+      <h2>{{ provider.name }}</h2>
+      <p>{{ provider.desc }}</p>
     </div>
   </div>
 
