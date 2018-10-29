@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SolidSession } from '../models/solid-session.model';
-//import * as $rdf from 'rdflib'
 declare let solid: any;
 declare let $rdf: any;
+//import * as $rdf from 'rdflib'
 
 // TODO: Remove any UI interaction from this service
 import { NgForm } from '@angular/forms';
@@ -30,7 +30,7 @@ export class RdfService {
    * as your query makes its way across the web.
    * @see http://linkeddata.github.io/rdflib.js/doc/Fetcher.html
    */
-  fetcher: $rdf.Fetcher;
+  fetcher = $rdf.Fetcher;
 
   /**
    * The UpdateManager allows you to send small changes to the server to “patch” the data as your user changes data in
@@ -38,7 +38,7 @@ export class RdfService {
    * upstream and downstream changes, and signaling any conflict between them.
    * @see http://linkeddata.github.io/rdflib.js/doc/UpdateManager.html
    */
-  updateManager: $rdf.UpdateManager;
+  updateManager = $rdf.UpdateManager;
 
   constructor (private toastr: ToastrService) {
     const fetcherOptions = {};
@@ -320,7 +320,7 @@ export class RdfService {
    * @param {$rdf.namespace} namespace The RDF Namespace
    * @param {string?} webId The webId URL (e.g. https://yourpod.solid.community/profile/card#me) 
    */
-  private getValueFromNamespace(node: string, namespace: $rdf.Namespace, webId?: string): string | any {
+  private getValueFromNamespace(node: string, namespace: any, webId?: string): string | any {
     const store = this.store.any($rdf.sym(webId || this.session.webId), namespace(node));
     if (store) {
       return store.value;
