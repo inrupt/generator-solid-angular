@@ -17,7 +17,7 @@ export class CardComponent implements OnInit  {
   profileImage: string;
   loadingProfile: Boolean;
 
-  @ViewChild('f') cardForm: NgForm;
+  @ViewChild('f', { static: false }) cardForm: NgForm;
 
   constructor(private rdf: RdfService,
     private route: ActivatedRoute, private auth: AuthService) {}
