@@ -31,7 +31,7 @@
     "http": "^0.0.0",
     "isomorphic-fetch": "^2.2.1",
     "ngx-toastr": "^9.0.2",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^2.6.1",
     "path": "^0.12.7",
     "process": "^0.11.10",
     "purecss": "^1.0.0",
