@@ -1,3 +1,6 @@
+# Archived 
+This project is now archived and no longer maintained. 
+
 # Solid Angular Yeoman Generator
 
 A yeoman generator to help you get up and running quickly using Solid and Angular. Running the generator will create a sample Angular profile editor application using Solid.
